@@ -117,12 +117,22 @@
     border-radius: 14px;
     padding: 28px 32px;
     margin-bottom: 48px;
-    display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .controls-top {
+    display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; justify-content: center;
+  }
+  .controls-bottom {
+    display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; justify-content: center;
+    padding-top: 4px;
+    border-top: 1px solid rgba(255,255,255,0.06);
   }
   .ctrl { display: flex; flex-direction: column; gap: 8px; }
   .ctrl label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
-  .ctrl input {
+  .ctrl input[type=number] {
     background: rgba(6,13,26,0.8);
     border: 1px solid rgba(201,168,76,0.25);
     border-radius: 7px; color: var(--white);
@@ -130,19 +140,22 @@
     padding: 10px 14px; width: 150px;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .ctrl input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
+  .ctrl input[type=number]:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
 
   .run-btn {
     background: var(--gold); color: var(--navy-deep);
-    border: none; border-radius: 7px;
+    border: 2px solid var(--gold);
+    border-radius: 7px;
     font-family: 'Montserrat', sans-serif;
     font-size: 11px; font-weight: 700;
     letter-spacing: 0.15em; text-transform: uppercase;
     padding: 11px 28px; cursor: pointer;
-    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    align-self: flex-end;
+    box-shadow: 0 0 0 4px rgba(201,168,76,0.12), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s, border-color 0.2s;
   }
-  .run-btn:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.25); }
-  .run-btn:active { transform: translateY(0); }
+  .run-btn:hover { background: var(--gold-bright); border-color: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35), 0 0 0 4px rgba(201,168,76,0.15); }
+  .run-btn:active { transform: translateY(0); box-shadow: 0 0 0 4px rgba(201,168,76,0.12); }
 
   /* ── HERO REDUCTION ── */
   .hero {
@@ -327,8 +340,8 @@
   .assumptions strong { color: var(--gold-light); font-weight: 600; }
 
   /* ── GRID SLIDER ── */
-  .ctrl.slider-ctrl { min-width: 220px; }
-  .slider-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .ctrl.slider-ctrl { flex: 1; min-width: 200px; max-width: 340px; }
+  .slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
   .slider-val {
     font-size: 15px; font-weight: 700; color: var(--gold-light);
     min-width: 38px; text-align: right;
@@ -369,35 +382,38 @@
   <!-- Header -->
   <div class="header">
     <div class="badge"><span class="badge-dot"></span> Live Sustainability Analysis</div>
-    <h1>Our Solar Car is<br><span>Cleaner by Every Measure</span></h1>
+    <h1>UBC Solar's Brightside is<br><span>Cleaner by Every Measure</span></h1>
     <p class="subtitle">Enter a trip distance below to see a full sustainability breakdown comparing our student-built solar car to a conventional gasoline car.</p>
   </div>
 
   <!-- Controls -->
   <div class="controls">
-    <div class="ctrl">
-      <label>Trip Distance (km)</label>
-      <input type="number" id="distance" value="100" min="1" max="10000">
-    </div>
-    <div class="ctrl">
-      <label>Avg Speed (km/h)</label>
-      <input type="number" id="speed" value="50" min="10" max="150">
-    </div>
-    <div class="ctrl">
-      <label>Annual km Driven</label>
-      <input type="number" id="annual" value="15000" min="1000" max="100000">
-    </div>
-    <button class="run-btn" onclick="calculate()">Calculate Impact</button>
-    <div class="ctrl slider-ctrl">
-      <div class="slider-header">
-        <label>Grid Supplement</label>
-        <span class="slider-val" id="grid-pct-label">0%</span>
+    <div class="controls-top">
+      <div class="ctrl">
+        <label>Trip Distance (km)</label>
+        <input type="number" id="distance" value="100" min="1" max="10000">
       </div>
-      <input type="range" id="grid-frac" min="0" max="100" value="0" step="1" oninput="updateGridLabel();calculate()">
-      <div class="fsgp-note">At FSGP, our grid supplement was ~25%</div>
+      <div class="ctrl">
+        <label>Avg Speed (km/h)</label>
+        <input type="number" id="speed" value="50" min="10" max="150">
+      </div>
+      <div class="ctrl">
+        <label>Annual km Driven</label>
+        <input type="number" id="annual" value="15000" min="1000" max="100000">
+      </div>
     </div>
-
-  <!-- Hero -->
+    <div class="controls-bottom">
+      <div class="ctrl slider-ctrl">
+        <div class="slider-header">
+          <label>Grid Supplement</label>
+          <span class="slider-val" id="grid-pct-label">0%</span>
+        </div>
+        <input type="range" id="grid-frac" min="0" max="100" value="0" step="1" oninput="updateGridLabel();calculate()">
+        <div class="fsgp-note">At FSGP, our grid supplement was ~25%</div>
+      </div>
+      <button class="run-btn" onclick="calculate()">Calculate Impact</button>
+    </div>
+  </div>
   <div class="hero">
     <div class="hero-label">CO₂ reduction vs. gasoline car</div>
     <div class="hero-pct" id="pct">—</div>
@@ -559,11 +575,11 @@
   <!-- Assumptions Note -->
   <div class="assumptions">
     <p>
-      <strong>ℹ️ Model notes:</strong> drivetrain efficiency is not modeled (set to 100%); grid supplement is adjustable via slider (0% = pure solar; at FSGP our supplement was ~25%).
-      Constants confirmed from engineering spreadsheet: array power <span class="tag">749.04 W</span>,
-      MPPT efficiency <span class="tag">97%</span>, battery round-trip efficiency <span class="tag">90.25%</span> (0.95 × 0.95),
-      vehicle mass <span class="tag">350 kg</span>, frontal area <span class="tag">1.1853 m²</span>,
-      drag coefficient <span class="tag">Cd 0.1166</span>, rolling resistance <span class="tag">Crr 0.0234</span>.
+      <strong>Model notes:</strong> Grid supplement is adjustable via slider (0% = pure solar; at FSGP our supplement was ~25%).
+      Constants confirmed from engineering spreadsheet: array power = <span class="tag">749.04 W</span>,
+      MPPT efficiency = <span class="tag">97%</span>, battery round-trip efficiency = <span class="tag">90.25%</span> (0.95 × 0.95),
+      vehicle mass = <span class="tag">350 kg</span>, frontal area = <span class="tag">1.1853 m²</span>,
+      drag coefficient = <span class="tag">0.1166</span>, rolling resistance = <span class="tag">0.0234</span>.
       Gasoline car baseline uses EPA average of <span class="tag">30 MPG</span> and <span class="tag">8.887 kg CO₂/gallon</span>. All results are physics-based estimates.
     </p>
   </div>
