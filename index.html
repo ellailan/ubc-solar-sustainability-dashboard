@@ -308,11 +308,12 @@
     margin-bottom: 32px;
     animation: fadeUp 0.7s 0.55s ease both;
   }
-  .energy-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
-  .e-label { font-size: 11px; color: var(--white-60); width: 200px; flex-shrink: 0; }
-  .e-track { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .energy-section { overflow: hidden; }
+  .energy-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; min-width: 0; }
+  .e-label { font-size: 11px; color: var(--white-60); width: 160px; flex-shrink: 0; }
+  .e-track { flex: 1; min-width: 0; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
   .e-bar { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
-  .e-val { font-size: 11px; color: var(--white-90); width: 90px; text-align: right; flex-shrink: 0; font-weight: 500; }
+  .e-val { font-size: 11px; color: var(--white-90); width: 70px; text-align: right; flex-shrink: 0; font-weight: 500; }
 
   /* ── COMPARISON TABLE ── */
   .compare-section {
