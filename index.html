@@ -74,7 +74,7 @@
 
   .page {
     position: relative; z-index: 1;
-    max-width: 960px; margin: 0 auto;
+    max-width: 760px; margin: 0 auto;
     padding: 64px 32px 100px;
   }
 
@@ -266,7 +266,8 @@
     border-radius: 12px; padding: 22px 20px;
     transition: border-color 0.2s, transform 0.2s;
   }
-  .impact-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); }
+  .impact-card:hover .card-front { border-color: rgba(201,168,76,0.4); }
+  .impact-card.flipped .card-inner { transform: rotateY(180deg); }
   .impact-icon { font-size: 22px; margin-bottom: 10px; }
   .impact-val {
     font-family: 'Montserrat', sans-serif;
@@ -342,13 +343,63 @@
   .assumptions p { font-size: 11px; color: var(--white-60); line-height: 1.8; }
   .assumptions strong { color: var(--gold-light); font-weight: 600; }
 
-  /* ── GRID SLIDER ── */
+  /* ── CARD FLIP ── */
+  .impact-card {
+    perspective: 800px;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .card-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    min-height: 160px;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+    border-radius: 12px;
+  }
+  @media (hover: hover) {
+    .impact-card:hover .card-inner { transform: rotateY(180deg); }
+  }
+  .card-front, .card-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    padding: 22px 20px;
+  }
+  .card-front {
+    background: rgba(19,37,83,0.4);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .card-back {
+    background: rgba(11,22,40,0.85);
+    border: 1px solid rgba(201,168,76,0.25);
+    transform: rotateY(180deg);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .card-back .math-label {
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 10px;
+  }
+  .card-back .math-formula {
+    font-size: 12px; color: var(--white-90); line-height: 1.8; font-weight: 500;
+  }
+  .card-back .math-formula span {
+    color: var(--gold-light); font-weight: 700;
+  }
+  .card-back .math-result {
+    font-size: 10px; color: var(--white-60); margin-top: 10px; line-height: 1.6;
+  }
+
+
   .ctrl.slider-ctrl { flex: 1; min-width: 200px; max-width: 340px; }
   .slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
   .slider-val {
     font-size: 15px; font-weight: 700; color: var(--gold-light);
     min-width: 38px; text-align: right;
   }
+  .slider-wrap { position: relative; display: flex; align-items: center; }
   input[type=range] {
     -webkit-appearance: none; appearance: none;
     width: 100%; height: 6px;
@@ -359,27 +410,44 @@
   }
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 18px; height: 18px; border-radius: 50%;
-    background: var(--gold);
-    border: 2px solid var(--navy-deep);
-    box-shadow: 0 0 0 3px rgba(201,168,76,0.2);
-    transition: box-shadow 0.2s;
-  }
-  input[type=range]::-webkit-slider-thumb:hover {
-    box-shadow: 0 0 0 6px rgba(201,168,76,0.2);
+    width: 28px; height: 28px;
+    background: transparent;
+    border: none; box-shadow: none;
+    cursor: pointer;
   }
   input[type=range]::-moz-range-thumb {
-    width: 18px; height: 18px; border-radius: 50%;
-    background: var(--gold);
-    border: 2px solid var(--navy-deep);
+    width: 28px; height: 28px;
+    background: transparent;
+    border: none; box-shadow: none;
+    cursor: pointer;
+  }
+  .sun-thumb {
+    position: absolute;
+    font-size: 22px;
+    line-height: 1;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transition: left 0s;
+    filter: drop-shadow(0 0 6px rgba(201,168,76,0.7));
+    user-select: none;
   }
   .fsgp-note {
     font-size: 10px; color: rgba(201,168,76,0.6);
     margin-top: 5px; font-style: italic;
   }
 
-  @media (max-width: 600px) {
-    .page { padding: 32px 16px 64px; }
+  @media (hover: none) {
+    .card-front::after {
+      content: 'tap to see the math';
+      display: block;
+      font-size: 9px;
+      color: rgba(201,168,76,0.45);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+    .impact-card.flipped .card-front::after { display: none; }
+  }
 
     h1 { font-size: 2rem; }
 
@@ -436,10 +504,13 @@
           <label>Grid Supplement</label>
           <span class="slider-val" id="grid-pct-label">0%</span>
         </div>
-        <input type="range" id="grid-frac" min="0" max="100" value="0" step="1" oninput="updateGridLabel()">
+        <div class="slider-wrap">
+          <input type="range" id="grid-frac" min="0" max="100" value="0" step="1" oninput="updateGridLabel()">
+          <span class="sun-thumb" id="sun-thumb">☀️</span>
+        </div>
         <div class="fsgp-note">At FSGP, our grid supplement was ~25%</div>
       </div>
-      <button class="run-btn" onclick="calculate()">Calculate Impact</button>
+      <button class="run-btn" onclick="calculate(); launchConfetti()">Calculate Impact</button>
     </div>
   </div>
   <div class="hero">
@@ -473,52 +544,124 @@
   <div class="section-title">Real-world impact equivalents</div>
   <div class="impact-grid">
     <div class="impact-card">
-      <div class="impact-icon">⛽</div>
-      <div class="impact-val" id="gas-saved">—</div>
-      <div class="impact-metric">litres of gasoline not burned</div>
-      <div class="impact-note">saved by choosing the solar car</div>
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">⛽</div>
+          <div class="impact-val" id="gas-saved">—</div>
+          <div class="impact-metric">litres of gasoline not burned</div>
+          <div class="impact-note">saved by choosing the solar car</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula">distance ÷ <span>30 MPG</span> × <span>3.785</span> L/gal</div>
+          <div class="math-result">Fuel a 30 MPG gasoline car would consume over the same distance.</div>
+        </div>
+      </div>
     </div>
     <div class="impact-card">
-      <div class="impact-icon">🌳</div>
-      <div class="impact-val" id="trees">—</div>
-      <div class="impact-metric">trees needed to absorb the gasoline car's emissions</div>
-      <div class="impact-note">vs. 0 trees needed for solar car</div>
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">🌳</div>
+          <div class="impact-val" id="trees">—</div>
+          <div class="impact-metric">trees needed to absorb the gasoline car's emissions</div>
+          <div class="impact-note">vs. 0 trees needed for solar car</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula">gasoline CO₂ ÷ <span>21 kg</span>/tree/year</div>
+          <div class="math-result">A mature tree absorbs roughly 21 kg of CO₂ per year.</div>
+        </div>
+      </div>
     </div>
     <div class="impact-card">
-      <div class="impact-icon">💨</div>
-      <div class="impact-val" id="co2-saved">—</div>
-      <div class="impact-metric">kg CO₂ prevented from entering the atmosphere</div>
-      <div class="impact-note">on this single trip</div>
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">💨</div>
+          <div class="impact-val" id="co2-saved">—</div>
+          <div class="impact-metric">kg CO₂ prevented from entering the atmosphere</div>
+          <div class="impact-note">on this single trip</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula">gasoline CO₂ − <span>solar CO₂</span></div>
+          <div class="math-result">Gasoline: 8.887 kg CO₂/gallon (EPA). Solar: only from grid-supplemented charging.</div>
+        </div>
+      </div>
     </div>
     <div class="impact-card">
-      <div class="impact-icon">🍔</div>
-      <div class="impact-val" id="bigmacs">—</div>
-      <div class="impact-metric">Big Macs worth of energy the gasoline car burned</div>
-      <div class="impact-note">580 calories each — not exactly fuel-efficient</div>
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">🍔</div>
+          <div class="impact-val" id="bigmacs">—</div>
+          <div class="impact-metric">Big Macs worth of energy the gasoline car burned</div>
+          <div class="impact-note">580 calories each — not exactly fuel-efficient</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula">gasoline kWh ÷ (<span>580 cal</span> × 0.001163)</div>
+          <div class="math-result">1 food calorie = 0.001163 kWh. A Big Mac has ~580 kcal.</div>
+        </div>
+      </div>
     </div>
     <div class="impact-card">
-      <div class="impact-icon">⚡</div>
-      <div class="impact-val" id="solar-gen">—</div>
-      <div class="impact-metric">kWh generated by solar panels on this trip</div>
-      <div class="impact-note">clean, renewable, zero-emission</div>
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">⚡</div>
+          <div class="impact-val" id="solar-gen">—</div>
+          <div class="impact-metric">kWh generated by solar panels on this trip</div>
+          <div class="impact-note">clean, renewable, zero-emission</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula"><span>749 W</span> × MPPT eff × battery eff × trip hours</div>
+          <div class="math-result">Array power from engineering spreadsheet. MPPT: 97%, battery round-trip: 90.25%.</div>
+        </div>
+      </div>
     </div>
     <div class="impact-card">
-      <div class="impact-icon">🌍</div>
-      <div class="impact-val" id="efficiency">—</div>
-      <div class="impact-metric">times more energy-efficient per km</div>
-      <div class="impact-note">solar car vs. gasoline car drivetrain</div>
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">🌍</div>
+          <div class="impact-val" id="efficiency">—</div>
+          <div class="impact-metric">times more energy-efficient per km</div>
+          <div class="impact-note">solar car vs. gasoline car drivetrain</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula">gasoline kWh ÷ <span>solar kWh</span></div>
+          <div class="math-result">Gasoline engines waste ~75% of fuel as heat. The solar car converts energy far more directly.</div>
+        </div>
+      </div>
     </div>
     <div class="impact-card">
-      <div class="impact-icon">✈️</div>
-      <div class="impact-val" id="flights">—</div>
-      <div class="impact-metric">Vancouver → LA flights offset by choosing the solar car</div>
-      <div class="impact-note">~90 kg CO₂ per passenger, one way</div>
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">✈️</div>
+          <div class="impact-val" id="flights">—</div>
+          <div class="impact-metric">Vancouver → LA flights offset by choosing the solar car</div>
+          <div class="impact-note">~90 kg CO₂ per passenger, one way</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula">CO₂ saved ÷ <span>90 kg</span>/flight</div>
+          <div class="math-result">A YVR→LAX flight emits roughly 90 kg CO₂ per passenger including radiative forcing.</div>
+        </div>
+      </div>
     </div>
     <div class="impact-card">
-      <div class="impact-icon">🍵</div>
-      <div class="impact-val" id="tea">—</div>
-      <div class="impact-metric">cups of tea you could brew with the solar energy generated</div>
-      <div class="impact-note">~0.04 kWh to boil one cup</div>
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">🍵</div>
+          <div class="impact-val" id="tea">—</div>
+          <div class="impact-metric">cups of tea you could brew with the solar energy generated</div>
+          <div class="impact-note">~0.04 kWh to boil one cup</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula">solar kWh ÷ <span>0.04 kWh</span>/cup</div>
+          <div class="math-result">Boiling 250 ml of water in a kettle takes roughly 0.04 kWh.</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -700,9 +843,18 @@ function set(id, val) {
 }
 
 function updateGridLabel() {
-  const val = document.getElementById('grid-frac').value;
+  const slider = document.getElementById('grid-frac');
+  const val = slider.value;
   document.getElementById('grid-pct-label').textContent = val + '%';
+  const pct = (val - slider.min) / (slider.max - slider.min);
+  const thumb = document.getElementById('sun-thumb');
+  const trackWidth = slider.offsetWidth;
+  const thumbOffset = pct * trackWidth;
+  thumb.style.left = thumbOffset + 'px';
 }
+
+// Init sun position on load
+window.addEventListener('load', updateGridLabel);
 
 function calculate() {
   const dist  = parseFloat(document.getElementById('distance').value) || 100;
@@ -790,6 +942,43 @@ function calculate() {
   set('t-solar-cost', '$' + solar_cost);
   set('t-van-cost',   '$' + van_cost);
 }
+
+function launchConfetti() {
+  const colors = ['#c9a84c', '#e8c87a', '#f5d98a', '#ffffff', '#0f2040'];
+  const count = 80;
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    const size = Math.random() * 8 + 5;
+    el.style.cssText = `
+      position: fixed;
+      width: ${size}px;
+      height: ${size}px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+      left: ${Math.random() * 100}vw;
+      top: -10px;
+      opacity: 1;
+      pointer-events: none;
+      z-index: 9999;
+      transform: rotate(${Math.random() * 360}deg);
+    `;
+    document.body.appendChild(el);
+    const duration = Math.random() * 1500 + 1000;
+    const drift = (Math.random() - 0.5) * 200;
+    el.animate([
+      { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 1 },
+      { transform: `translateY(100vh) translateX(${drift}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' })
+      .onfinish = () => el.remove();
+  }
+}
+
+// Tap to flip on touch devices
+document.querySelectorAll('.impact-card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+  });
+});
 
 // Results shown only on button press
 </script>
