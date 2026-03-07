@@ -4,23 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Solar Car · Sustainability Report</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --ink: #0f1a0a;
-    --deep: #182410;
-    --grove: #2a3d1c;
-    --fern: #4a7a3a;
-    --leaf: #72b85a;
-    --lime: #a8d878;
-    --sun: #f0c040;
-    --amber: #e8902a;
-    --cream: #eee8d8;
-    --mist: #b8c8a8;
-    --exhaust: #6a5a48;
-    --smog: #9a8a78;
+    --navy-deep:   #060d1a;
+    --navy-dark:   #0b1628;
+    --navy-mid:    #0f2040;
+    --navy-panel:  #132553;
+    --navy-border: #1e3570;
+    --gold:        #c9a84c;
+    --gold-light:  #e8c87a;
+    --gold-bright: #f5d98a;
+    --white:       #ffffff;
+    --white-90:    rgba(255,255,255,0.90);
+    --white-60:    rgba(255,255,255,0.60);
+    --white-30:    rgba(255,255,255,0.30);
+    --white-10:    rgba(255,255,255,0.10);
+    --white-05:    rgba(255,255,255,0.05);
+    --van-muted:   #8899bb;
+    --van-border:  rgba(136,153,187,0.25);
+    --danger:      #c97a4c;
   }
 
   @keyframes fadeUp {
@@ -35,8 +40,8 @@
     to   { opacity: 1; }
   }
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(114,184,90,0.3); }
-    50%       { box-shadow: 0 0 0 12px rgba(114,184,90,0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+    50%       { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
   }
   @keyframes spin {
     from { transform: rotate(0deg); }
@@ -48,9 +53,9 @@
   }
 
   body {
-    background: var(--ink);
-    color: var(--cream);
-    font-family: 'IBM Plex Mono', monospace;
+    background: var(--navy-deep);
+    color: var(--white-90);
+    font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
   }
 
@@ -58,9 +63,9 @@
     content: '';
     position: fixed; inset: 0;
     background:
-      radial-gradient(ellipse 70% 50% at 15% 5%,  rgba(42,61,28,0.5) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 70% at 85% 95%, rgba(24,36,16,0.6) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 60% 40%, rgba(114,184,90,0.04) 0%, transparent 50%);
+      radial-gradient(ellipse 70% 50% at 10% 0%,   rgba(19,37,83,0.8) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 90% 100%,  rgba(11,22,40,0.9) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 55% 45%,  rgba(201,168,76,0.03) 0%, transparent 50%);
     pointer-events: none; z-index: 0;
   }
 
@@ -75,36 +80,40 @@
 
   .badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(114,184,90,0.12);
-    border: 1px solid rgba(114,184,90,0.3);
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.35);
     border-radius: 99px;
     padding: 6px 14px;
     font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--leaf); margin-bottom: 24px;
+    color: var(--gold-light); margin-bottom: 24px;
+    font-weight: 600;
   }
   .badge-dot {
     width: 6px; height: 6px; border-radius: 50%;
-    background: var(--leaf);
+    background: var(--gold);
     animation: pulse 2s infinite;
   }
 
   h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.6rem, 6vw, 4.4rem);
-    line-height: 1.05; color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.05; color: var(--white);
     margin-bottom: 16px;
+    letter-spacing: -0.02em;
   }
-  h1 span { color: var(--sun); font-style: italic; }
+  h1 span { color: var(--gold-light); font-style: italic; font-weight: 300; }
 
   .subtitle {
-    font-size: 13px; color: var(--mist);
+    font-size: 13px; color: var(--white-60);
     line-height: 1.8; max-width: 580px;
+    font-weight: 400;
   }
 
   /* ── CONTROLS ── */
   .controls {
-    background: rgba(42,61,28,0.3);
-    border: 1px solid rgba(114,184,90,0.18);
+    background: rgba(19,37,83,0.5);
+    border: 1px solid rgba(201,168,76,0.2);
     border-radius: 14px;
     padding: 28px 32px;
     margin-bottom: 48px;
@@ -112,58 +121,65 @@
     animation: fadeUp 0.7s 0.1s ease both;
   }
   .ctrl { display: flex; flex-direction: column; gap: 8px; }
-  .ctrl label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--leaf); }
+  .ctrl label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
   .ctrl input {
-    background: rgba(15,26,10,0.7);
-    border: 1px solid rgba(114,184,90,0.25);
-    border-radius: 7px; color: var(--cream);
-    font-family: 'IBM Plex Mono', monospace; font-size: 15px;
+    background: rgba(6,13,26,0.8);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 7px; color: var(--white);
+    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 500;
     padding: 10px 14px; width: 150px;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .ctrl input:focus { outline: none; border-color: var(--leaf); box-shadow: 0 0 0 3px rgba(114,184,90,0.12); }
+  .ctrl input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
 
   .run-btn {
-    background: var(--leaf); color: var(--ink);
+    background: var(--gold); color: var(--navy-deep);
     border: none; border-radius: 7px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px; font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 700;
     letter-spacing: 0.15em; text-transform: uppercase;
     padding: 11px 28px; cursor: pointer;
     transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
   }
-  .run-btn:hover { background: var(--sun); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(114,184,90,0.2); }
+  .run-btn:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.25); }
   .run-btn:active { transform: translateY(0); }
 
   /* ── HERO REDUCTION ── */
   .hero {
-    background: linear-gradient(135deg, rgba(42,61,28,0.5), rgba(15,26,10,0.3));
-    border: 1px solid rgba(114,184,90,0.2);
+    background: linear-gradient(135deg, rgba(19,37,83,0.7), rgba(6,13,26,0.5));
+    border: 1px solid rgba(201,168,76,0.25);
     border-radius: 16px; padding: 48px;
     margin-bottom: 32px; text-align: center;
     position: relative; overflow: hidden;
     animation: fadeUp 0.7s 0.2s ease both;
   }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
   .hero::after {
     content: '◉';
-    position: absolute; font-size: 260px; opacity: 0.03;
+    position: absolute; font-size: 260px; opacity: 0.04;
     top: -60px; right: -40px; line-height: 1;
-    color: var(--leaf); pointer-events: none;
+    color: var(--gold); pointer-events: none;
   }
-  .hero-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--leaf); margin-bottom: 12px; }
+  .hero-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 600; }
   .hero-pct {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: clamp(4rem, 14vw, 8rem);
-    line-height: 1; color: var(--sun);
-    background: linear-gradient(90deg, var(--sun), var(--lime), var(--sun));
+    font-weight: 800;
+    line-height: 1; letter-spacing: -0.03em;
+    background: linear-gradient(90deg, var(--gold), var(--gold-bright), var(--gold));
     background-size: 200% auto;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: shimmer 3s linear infinite;
     transition: all 0.5s;
   }
-  .hero-unit { font-size: 13px; color: var(--mist); margin-top: 8px; }
-  .hero-sub { font-size: 11px; color: var(--fern); margin-top: 6px; letter-spacing: 0.08em; }
+  .hero-unit { font-size: 13px; color: var(--white-60); margin-top: 8px; font-weight: 400; }
+  .hero-sub { font-size: 11px; color: rgba(201,168,76,0.6); margin-top: 6px; letter-spacing: 0.08em; font-weight: 500; }
 
   /* ── DIRECT CO2 CARDS ── */
   .co2-row {
@@ -178,27 +194,28 @@
     position: relative; overflow: hidden;
   }
   .co2-card.solar {
-    background: rgba(42,61,28,0.4);
-    border: 1px solid rgba(114,184,90,0.25);
+    background: rgba(19,37,83,0.5);
+    border: 1px solid rgba(201,168,76,0.25);
   }
   .co2-card.van {
-    background: rgba(60,40,20,0.35);
-    border: 1px solid rgba(160,120,60,0.2);
+    background: rgba(11,22,40,0.6);
+    border: 1px solid var(--van-border);
   }
   .co2-card .card-icon { font-size: 28px; margin-bottom: 12px; }
-  .co2-card .card-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px; }
-  .co2-card.solar .card-label { color: var(--leaf); }
-  .co2-card.van   .card-label { color: var(--smog); }
+  .co2-card .card-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
+  .co2-card.solar .card-label { color: var(--gold); }
+  .co2-card.van   .card-label { color: var(--van-muted); }
   .co2-card .card-val {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.6rem; line-height: 1;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.6rem; font-weight: 800; line-height: 1;
     margin-bottom: 4px; transition: all 0.5s;
+    letter-spacing: -0.02em;
   }
-  .co2-card.solar .card-val { color: var(--lime); }
-  .co2-card.van   .card-val { color: var(--smog); }
-  .co2-card .card-unit { font-size: 11px; color: var(--mist); }
-  .co2-card .card-note { font-size: 10px; color: var(--fern); margin-top: 10px; line-height: 1.6; }
-  .co2-card.van .card-note { color: var(--exhaust); }
+  .co2-card.solar .card-val { color: var(--gold-light); }
+  .co2-card.van   .card-val { color: var(--van-muted); }
+  .co2-card .card-unit { font-size: 11px; color: var(--white-60); }
+  .co2-card .card-note { font-size: 10px; color: rgba(201,168,76,0.5); margin-top: 10px; line-height: 1.6; }
+  .co2-card.van .card-note { color: rgba(136,153,187,0.5); }
 
   /* Bar visual */
   .bar-track {
@@ -209,14 +226,15 @@
     height: 100%; border-radius: 2px;
     animation: fillBar 1.2s 0.8s cubic-bezier(0.4,0,0.2,1) both;
   }
-  .co2-card.solar .bar-fill { background: var(--leaf); width: 2%; }
-  .co2-card.van   .bar-fill { background: var(--smog); width: 100%; }
+  .co2-card.solar .bar-fill { background: var(--gold); width: 2%; }
+  .co2-card.van   .bar-fill { background: var(--van-muted); width: 100%; }
 
   /* ── SECTION TITLE ── */
   .section-title {
     font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--fern); margin-bottom: 16px; padding-bottom: 10px;
-    border-bottom: 1px solid rgba(114,184,90,0.12);
+    color: var(--gold); margin-bottom: 16px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    font-weight: 600;
   }
 
   /* ── IMPACT GRID ── */
@@ -227,26 +245,26 @@
     animation: fadeUp 0.7s 0.4s ease both;
   }
   .impact-card {
-    background: rgba(24,36,16,0.5);
-    border: 1px solid rgba(114,184,90,0.13);
+    background: rgba(19,37,83,0.4);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 12px; padding: 22px 20px;
     transition: border-color 0.2s, transform 0.2s;
   }
-  .impact-card:hover { border-color: rgba(114,184,90,0.35); transform: translateY(-2px); }
+  .impact-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); }
   .impact-icon { font-size: 22px; margin-bottom: 10px; }
   .impact-val {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.9rem; color: var(--lime);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.9rem; font-weight: 800; color: var(--white);
     line-height: 1; margin-bottom: 4px;
-    transition: all 0.5s;
+    transition: all 0.5s; letter-spacing: -0.02em;
   }
-  .impact-metric { font-size: 10px; color: var(--mist); line-height: 1.5; }
-  .impact-note { font-size: 10px; color: var(--fern); margin-top: 6px; }
+  .impact-metric { font-size: 10px; color: var(--white-60); line-height: 1.5; }
+  .impact-note { font-size: 10px; color: var(--gold); margin-top: 6px; opacity: 0.7; }
 
   /* ── LIFETIME PROJECTION ── */
   .lifetime-section {
-    background: rgba(24,36,16,0.4);
-    border: 1px solid rgba(114,184,90,0.15);
+    background: rgba(19,37,83,0.35);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 14px; padding: 32px;
     margin-bottom: 32px;
     animation: fadeUp 0.7s 0.5s ease both;
@@ -258,26 +276,26 @@
   @media (max-width: 600px) { .lifetime-grid { grid-template-columns: 1fr; } }
   .lf-item { text-align: center; }
   .lf-val {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem; color: var(--sun); margin-bottom: 4px;
-    transition: all 0.5s;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem; font-weight: 800; color: var(--gold-light); margin-bottom: 4px;
+    transition: all 0.5s; letter-spacing: -0.02em;
   }
-  .lf-label { font-size: 10px; color: var(--mist); line-height: 1.6; }
-  .lf-sub { font-size: 10px; color: var(--fern); margin-top: 4px; }
+  .lf-label { font-size: 10px; color: var(--white-60); line-height: 1.6; }
+  .lf-sub { font-size: 10px; color: var(--gold); margin-top: 4px; opacity: 0.7; }
 
   /* ── ENERGY BREAKDOWN ── */
   .energy-section {
-    background: rgba(24,36,16,0.4);
-    border: 1px solid rgba(114,184,90,0.15);
+    background: rgba(19,37,83,0.35);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 14px; padding: 32px;
     margin-bottom: 32px;
     animation: fadeUp 0.7s 0.55s ease both;
   }
   .energy-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
-  .e-label { font-size: 11px; color: var(--mist); width: 200px; flex-shrink: 0; }
+  .e-label { font-size: 11px; color: var(--white-60); width: 200px; flex-shrink: 0; }
   .e-track { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
   .e-bar { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
-  .e-val { font-size: 11px; color: var(--cream); width: 90px; text-align: right; flex-shrink: 0; }
+  .e-val { font-size: 11px; color: var(--white-90); width: 90px; text-align: right; flex-shrink: 0; font-weight: 500; }
 
   /* ── COMPARISON TABLE ── */
   .compare-section {
@@ -285,34 +303,34 @@
     margin-bottom: 32px;
   }
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  thead tr { border-bottom: 1px solid rgba(114,184,90,0.2); }
-  th { padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; }
-  th:first-child { color: var(--fern); }
-  th.solar-h { color: var(--leaf); }
-  th.van-h   { color: var(--smog); }
+  thead tr { border-bottom: 1px solid rgba(201,168,76,0.2); }
+  th { padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; }
+  th:first-child { color: var(--white-60); }
+  th.solar-h { color: var(--gold); }
+  th.van-h   { color: var(--van-muted); }
   td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
-  td:first-child { color: var(--mist); }
-  td.solar-v { color: var(--lime); font-weight: 500; }
-  td.van-v   { color: var(--smog); }
-  .win { display: inline-block; background: rgba(114,184,90,0.15); color: var(--leaf); border-radius: 4px; padding: 2px 8px; font-size: 10px; margin-left: 8px; }
+  td:first-child { color: var(--white-60); }
+  td.solar-v { color: var(--white); font-weight: 600; }
+  td.van-v   { color: var(--van-muted); }
+  .win { display: inline-block; background: rgba(201,168,76,0.15); color: var(--gold); border-radius: 4px; padding: 2px 8px; font-size: 10px; margin-left: 8px; font-weight: 600; }
 
   /* ── ASSUMPTIONS NOTE ── */
   .assumptions {
-    background: rgba(42,61,28,0.2);
-    border-left: 3px solid rgba(114,184,90,0.3);
+    background: rgba(19,37,83,0.3);
+    border-left: 3px solid rgba(201,168,76,0.35);
     border-radius: 0 8px 8px 0;
     padding: 20px 24px;
     animation: fadeUp 0.7s 0.65s ease both;
   }
-  .assumptions p { font-size: 11px; color: var(--mist); line-height: 1.8; }
-  .assumptions strong { color: var(--leaf); font-weight: 500; }
+  .assumptions p { font-size: 11px; color: var(--white-60); line-height: 1.8; }
+  .assumptions strong { color: var(--gold-light); font-weight: 600; }
 
   .tag {
     display: inline-block;
-    background: rgba(232,144,42,0.15); color: var(--amber);
+    background: rgba(201,168,76,0.12); color: var(--gold-light);
     border-radius: 4px; padding: 1px 6px; font-size: 10px;
-    margin: 0 2px;
+    margin: 0 2px; font-weight: 500;
   }
 </style>
 </head>
@@ -440,17 +458,17 @@
     <div id="energy-bars">
       <div class="energy-row">
         <div class="e-label">Solar (on-panel generation)</div>
-        <div class="e-track"><div class="e-bar" id="bar-solar" style="background:var(--leaf);width:0%"></div></div>
+        <div class="e-track"><div class="e-bar" id="bar-solar" style="background:var(--gold);width:0%"></div></div>
         <div class="e-val" id="val-solar">—</div>
       </div>
       <div class="energy-row">
         <div class="e-label">Grid supplement (⚠️ assumed 10%)</div>
-        <div class="e-track"><div class="e-bar" id="bar-grid" style="background:var(--amber);width:0%"></div></div>
+        <div class="e-track"><div class="e-bar" id="bar-grid" style="background:var(--white-30);width:0%"></div></div>
         <div class="e-val" id="val-grid">—</div>
       </div>
       <div class="energy-row">
         <div class="e-label">Minivan · gasoline combustion</div>
-        <div class="e-track"><div class="e-bar" id="bar-van" style="background:var(--exhaust);width:0%"></div></div>
+        <div class="e-track"><div class="e-bar" id="bar-van" style="background:var(--van-muted);width:0%"></div></div>
         <div class="e-val" id="val-van">—</div>
       </div>
     </div>
@@ -505,11 +523,13 @@
   <!-- Assumptions Note -->
   <div class="assumptions">
     <p>
-      <strong>⚠️ Student-car unknowns:</strong> panel area <span class="tag">4 m²</span>, panel efficiency <span class="tag">20%</span>,
-      battery round-trip efficiency <span class="tag">90%</span>, drivetrain efficiency <span class="tag">85%</span>,
-      drag coefficient <span class="tag">Cd 0.35</span>, frontal area <span class="tag">1.2 m²</span>,
-      vehicle mass <span class="tag">250 kg</span>, grid supplement <span class="tag">10%</span>.
-      Minivan values are EPA-standard. All results are physics-based estimates — tune constants to match your actual build.
+      <strong>⚠️ Remaining unknowns:</strong> drivetrain efficiency <span class="tag">85%</span>,
+      grid supplement fraction <span class="tag">10%</span>.
+      Constants confirmed from engineering spreadsheet: array power <span class="tag">749.04 W</span>,
+      MPPT efficiency <span class="tag">97%</span>, battery round-trip efficiency <span class="tag">90.25%</span> (0.95 × 0.95),
+      vehicle mass <span class="tag">350 kg</span>, frontal area <span class="tag">1.1853 m²</span>,
+      drag coefficient <span class="tag">Cd 0.1166</span>, rolling resistance <span class="tag">Crr 0.0234</span>.
+      Minivan values are EPA-standard. All results are physics-based estimates.
     </p>
   </div>
 
@@ -526,17 +546,16 @@ const C = {
   GAS_PRICE_USD_L: 0.95,    // USD per litre
   ELEC_PRICE_USD_KWH: 0.13, // USD per kWh
 
-  // Solar car — ⚠️ student unknowns flagged
-  PANEL_AREA: 4.0,
-  PANEL_EFF: 0.20,
-  BATT_EFF: 0.90,
-  DT_EFF: 0.85,
-  CRR: 0.015,
-  CD: 0.35,
-  FRONT_AREA: 1.2,
-  MASS: 250,
-  IRRADIANCE: 1000,
-  GRID_FRAC: 0.10,
+  // Solar car — values from engineering spreadsheet where available
+  ARRAY_POWER_W: 749.04,        // from spreadsheet (replaces IRRADIANCE × PANEL_AREA × PANEL_EFF)
+  MPPT_EFF: 0.97,               // MPPT_EFFICIENCY from spreadsheet
+  BATT_EFF: 0.9025,             // BATTERY_INPUT_EFFICIENCY × BATTERY_OUTPUT_EFFICIENCY (0.95 × 0.95)
+  DT_EFF: 0.85,                 // ⚠️ assumed drivetrain efficiency
+  CRR: 0.0234,                  // ROLLING_RESISTANCE_COEFFICIENT from spreadsheet
+  CD: 0.1166,                   // DRAG_COEFFICIENT from spreadsheet
+  FRONT_AREA: 1.1853,           // VEHICLE_FRONTAL_AREA from spreadsheet
+  MASS: 350,                    // VEHICLE_MASS_KG from spreadsheet
+  GRID_FRAC: 0.10,              // ⚠️ assumed grid supplement fraction
   CO2_PER_KWH_GRID: 0.386,
 
   G: 9.81,
@@ -558,7 +577,7 @@ function calcSolar(dist_km, speed_kmh) {
   const elec_kwh = mech_kwh / C.DT_EFF;
 
   const t_hr = dist_km / speed_kmh;
-  const solar_power_kw = C.IRRADIANCE * C.PANEL_AREA * C.PANEL_EFF / 1000;
+  const solar_power_kw = C.ARRAY_POWER_W * C.MPPT_EFF / 1000;
   const solar_gen_kwh = solar_power_kw * t_hr * C.BATT_EFF;
 
   const grid_kwh = elec_kwh * C.GRID_FRAC;
