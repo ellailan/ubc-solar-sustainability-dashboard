@@ -326,11 +326,40 @@
   .assumptions p { font-size: 11px; color: var(--white-60); line-height: 1.8; }
   .assumptions strong { color: var(--gold-light); font-weight: 600; }
 
-  .tag {
-    display: inline-block;
-    background: rgba(201,168,76,0.12); color: var(--gold-light);
-    border-radius: 4px; padding: 1px 6px; font-size: 10px;
-    margin: 0 2px; font-weight: 500;
+  /* ── GRID SLIDER ── */
+  .ctrl.slider-ctrl { min-width: 220px; }
+  .slider-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .slider-val {
+    font-size: 15px; font-weight: 700; color: var(--gold-light);
+    min-width: 38px; text-align: right;
+  }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px; outline: none;
+    border: none; padding: 0;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--navy-deep);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.2);
+    transition: box-shadow 0.2s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 6px rgba(201,168,76,0.2);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--navy-deep);
+  }
+  .fsgp-note {
+    font-size: 10px; color: rgba(201,168,76,0.6);
+    margin-top: 5px; font-style: italic;
   }
 </style>
 </head>
@@ -341,7 +370,7 @@
   <div class="header">
     <div class="badge"><span class="badge-dot"></span> Live Sustainability Analysis</div>
     <h1>Our Solar Car is<br><span>Cleaner by Every Measure</span></h1>
-    <p class="subtitle">Enter a trip distance below to see a full sustainability breakdown comparing our student-built solar car to a conventional minivan.</p>
+    <p class="subtitle">Enter a trip distance below to see a full sustainability breakdown comparing our student-built solar car to a conventional gasoline car.</p>
   </div>
 
   <!-- Controls -->
@@ -359,11 +388,18 @@
       <input type="number" id="annual" value="15000" min="1000" max="100000">
     </div>
     <button class="run-btn" onclick="calculate()">Calculate Impact</button>
-  </div>
+    <div class="ctrl slider-ctrl">
+      <div class="slider-header">
+        <label>Grid Supplement</label>
+        <span class="slider-val" id="grid-pct-label">0%</span>
+      </div>
+      <input type="range" id="grid-frac" min="0" max="100" value="0" step="1" oninput="updateGridLabel();calculate()">
+      <div class="fsgp-note">At FSGP, our grid supplement was ~25%</div>
+    </div>
 
   <!-- Hero -->
   <div class="hero">
-    <div class="hero-label">CO₂ reduction vs. minivan</div>
+    <div class="hero-label">CO₂ reduction vs. gasoline car</div>
     <div class="hero-pct" id="pct">—</div>
     <div class="hero-unit" id="hero-unit">calculating...</div>
     <div class="hero-sub" id="hero-sub"></div>
@@ -380,11 +416,11 @@
       <div class="bar-track"><div class="bar-fill"></div></div>
     </div>
     <div class="co2-card van">
-      <div class="card-icon">🚐</div>
-      <div class="card-label">Minivan · CO₂ Emitted</div>
+      <div class="card-icon">🚗</div>
+      <div class="card-label">Gasoline Car · CO₂ Emitted</div>
       <div class="card-val" id="van-co2">—</div>
       <div class="card-unit">kg CO₂</div>
-      <div class="card-note">Direct tailpipe combustion emissions at 22 MPG</div>
+      <div class="card-note">Direct tailpipe combustion emissions at 30 MPG</div>
       <div class="bar-track"><div class="bar-fill"></div></div>
     </div>
   </div>
@@ -395,13 +431,13 @@
     <div class="impact-card">
       <div class="impact-icon">🌳</div>
       <div class="impact-val" id="trees">—</div>
-      <div class="impact-metric">trees needed to absorb the minivan's emissions</div>
+      <div class="impact-metric">trees needed to absorb the gasoline car's emissions</div>
       <div class="impact-note">vs. 0 trees needed for solar car</div>
     </div>
     <div class="impact-card">
       <div class="impact-icon">🏠</div>
       <div class="impact-val" id="homes">—</div>
-      <div class="impact-metric">days of home electricity the minivan's CO₂ represents</div>
+      <div class="impact-metric">days of home electricity the gasoline car's CO₂ represents</div>
       <div class="impact-note">based on avg US household 29 kWh/day</div>
     </div>
     <div class="impact-card">
@@ -426,7 +462,7 @@
       <div class="impact-icon">🌍</div>
       <div class="impact-val" id="efficiency">—</div>
       <div class="impact-metric">times more energy-efficient per km</div>
-      <div class="impact-note">solar car vs. minivan drivetrain</div>
+      <div class="impact-note">solar car vs. gasoline car drivetrain</div>
     </div>
   </div>
 
@@ -437,7 +473,7 @@
       <div class="lf-item">
         <div class="lf-val" id="yr1">—</div>
         <div class="lf-label">kg CO₂ saved<br>in year 1</div>
-        <div class="lf-sub">vs. driving a minivan</div>
+        <div class="lf-sub">vs. driving a gasoline car</div>
       </div>
       <div class="lf-item">
         <div class="lf-val" id="yr5">—</div>
@@ -467,7 +503,7 @@
         <div class="e-val" id="val-grid">—</div>
       </div>
       <div class="energy-row">
-        <div class="e-label">Minivan · gasoline combustion</div>
+        <div class="e-label">Gasoline car · combustion</div>
         <div class="e-track"><div class="e-bar" id="bar-van" style="background:var(--van-muted);width:0%"></div></div>
         <div class="e-val" id="val-van">—</div>
       </div>
@@ -482,7 +518,7 @@
         <tr>
           <th>Metric</th>
           <th class="solar-h">☀ Solar Car</th>
-          <th class="van-h">🚐 Minivan</th>
+          <th class="van-h">🚗 Gasoline Car</th>
         </tr>
       </thead>
       <tbody>
@@ -523,13 +559,12 @@
   <!-- Assumptions Note -->
   <div class="assumptions">
     <p>
-      <strong>⚠️ Remaining unknowns:</strong> drivetrain efficiency <span class="tag">85%</span>,
-      grid supplement fraction <span class="tag">10%</span>.
+      <strong>ℹ️ Model notes:</strong> drivetrain efficiency is not modeled (set to 100%); grid supplement is adjustable via slider (0% = pure solar; at FSGP our supplement was ~25%).
       Constants confirmed from engineering spreadsheet: array power <span class="tag">749.04 W</span>,
       MPPT efficiency <span class="tag">97%</span>, battery round-trip efficiency <span class="tag">90.25%</span> (0.95 × 0.95),
       vehicle mass <span class="tag">350 kg</span>, frontal area <span class="tag">1.1853 m²</span>,
       drag coefficient <span class="tag">Cd 0.1166</span>, rolling resistance <span class="tag">Crr 0.0234</span>.
-      Minivan values are EPA-standard. All results are physics-based estimates.
+      Gasoline car baseline uses EPA average of <span class="tag">30 MPG</span> and <span class="tag">8.887 kg CO₂/gallon</span>. All results are physics-based estimates.
     </p>
   </div>
 
@@ -538,8 +573,8 @@
 <script>
 // ── Physics constants ──────────────────────────────────────────────────
 const C = {
-  // Minivan
-  MPG: 22,
+  // Gasoline car (avg US passenger car, EPA ~30 MPG)
+  MPG: 30,
   CO2_PER_GAL: 8.887,       // kg CO2 per gallon gasoline (EPA)
   KM_PER_MILE: 1.60934,
   GAS_KWH_PER_LITRE: 9.1,   // energy in a litre of petrol (kWh)
@@ -550,12 +585,12 @@ const C = {
   ARRAY_POWER_W: 749.04,        // from spreadsheet (replaces IRRADIANCE × PANEL_AREA × PANEL_EFF)
   MPPT_EFF: 0.97,               // MPPT_EFFICIENCY from spreadsheet
   BATT_EFF: 0.9025,             // BATTERY_INPUT_EFFICIENCY × BATTERY_OUTPUT_EFFICIENCY (0.95 × 0.95)
-  DT_EFF: 0.85,                 // ⚠️ assumed drivetrain efficiency
+  DT_EFF: 1.0,                  // not modeled
   CRR: 0.0234,                  // ROLLING_RESISTANCE_COEFFICIENT from spreadsheet
   CD: 0.1166,                   // DRAG_COEFFICIENT from spreadsheet
   FRONT_AREA: 1.1853,           // VEHICLE_FRONTAL_AREA from spreadsheet
   MASS: 350,                    // VEHICLE_MASS_KG from spreadsheet
-  GRID_FRAC: 0.10,              // ⚠️ assumed grid supplement fraction
+  GRID_FRAC: 0,                 // overridden by slider at runtime
   CO2_PER_KWH_GRID: 0.386,
 
   G: 9.81,
@@ -608,10 +643,16 @@ function set(id, val) {
   if (el) el.textContent = val;
 }
 
+function updateGridLabel() {
+  const val = document.getElementById('grid-frac').value;
+  document.getElementById('grid-pct-label').textContent = val + '%';
+}
+
 function calculate() {
   const dist  = parseFloat(document.getElementById('distance').value) || 100;
   const speed = parseFloat(document.getElementById('speed').value)    || 50;
   const annual= parseFloat(document.getElementById('annual').value)   || 15000;
+  C.GRID_FRAC = parseFloat(document.getElementById('grid-frac').value) / 100;
 
   const s = calcSolar(dist, speed);
   const v = calcVan(dist);
@@ -644,7 +685,7 @@ function calculate() {
 
   // ── Update DOM ──
   set('pct', pct + '%');
-  set('hero-unit', `less CO₂ than a minivan over ${dist} km`);
+  set('hero-unit', `less CO₂ than a gasoline car over ${dist} km`);
   set('hero-sub',  `${fmt(co2_saved, 2)} kg CO₂ prevented · ${gas_saved_L} litres of fuel not burned`);
 
   set('solar-co2', fmt(s.co2, 4));
