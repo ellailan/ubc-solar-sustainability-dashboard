@@ -397,7 +397,7 @@
     margin-bottom: 16px;
   }
   .tsn-row {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
   }
   @media (max-width: 600px) { .tsn-row { grid-template-columns: 1fr; } }
   .tsn-pill {
@@ -436,7 +436,13 @@
   th { padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; }
   th:first-child { color: var(--white-60); }
   th.solar-h { color: var(--gold); }
-  th.van-h   { color: var(--van-muted); }
+  th.ev-h    { color: #60a5fa; }
+  td.ev-v    { color: #93c5fd; font-weight: 500; }
+  .ev-pill {
+    background: rgba(96,165,250,0.07);
+    border: 1px solid rgba(96,165,250,0.2);
+  }
+  .ev-swatch { background: #60a5fa; }
   td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   td:first-child { color: var(--white-60); }
@@ -975,6 +981,10 @@ Solar’s work is proof that sustainable transportation will be possible in the 
           <span class="tsn-swatch van-swatch"></span>
           <div><div class="tsn-name">Gasoline Car</div><div class="tsn-desc">EPA baseline of 30 MPG and 8.887 kg CO₂/gallon scaled to trip distance</div></div>
         </div>
+        <div class="tsn-pill ev-pill">
+          <span class="tsn-swatch ev-swatch"></span>
+          <div><div class="tsn-name">Electric Car</div><div class="tsn-desc">Tesla Model 3 at 14.1 kWh/100km on BC's grid (15 gCO₂/kWh, BC Hydro 2023)</div></div>
+        </div>
       </div>
     </div>
     <table>
@@ -982,6 +992,7 @@ Solar’s work is proof that sustainable transportation will be possible in the 
         <tr>
           <th>Metric</th>
           <th class="solar-h">☀ Solar Car</th>
+          <th class="ev-h">⚡ Electric Car</th>
           <th class="van-h">🚗 Gasoline Car</th>
         </tr>
       </thead>
@@ -989,31 +1000,37 @@ Solar’s work is proof that sustainable transportation will be possible in the 
         <tr>
           <td>CO₂ emitted (kg)</td>
           <td class="solar-v" id="t-solar-co2">—</td>
+          <td class="ev-v"    id="t-ev-co2">—</td>
           <td class="van-v"   id="t-van-co2">—</td>
         </tr>
         <tr>
           <td>Energy consumed (kWh)</td>
           <td class="solar-v" id="t-solar-kwh">—</td>
+          <td class="ev-v"    id="t-ev-kwh">—</td>
           <td class="van-v"   id="t-van-kwh">—</td>
         </tr>
         <tr>
           <td>CO₂ per km (g/km)</td>
-          <td class="solar-v" id="t-solar-gkm">— <span class="win">CLEANER</span></td>
+          <td class="solar-v" id="t-solar-gkm">— <span class="win">CLEANEST</span></td>
+          <td class="ev-v"    id="t-ev-gkm">—</td>
           <td class="van-v"   id="t-van-gkm">—</td>
         </tr>
         <tr>
           <td>Energy per km (Wh/km)</td>
           <td class="solar-v" id="t-solar-wkm">—</td>
+          <td class="ev-v"    id="t-ev-wkm">—</td>
           <td class="van-v"   id="t-van-wkm">—</td>
         </tr>
         <tr>
           <td>Renewable energy %</td>
           <td class="solar-v" id="t-solar-ren">—</td>
+          <td class="ev-v">97%</td>
           <td class="van-v">0%</td>
         </tr>
         <tr>
           <td>Fuel cost (USD, est.)</td>
           <td class="solar-v" id="t-solar-cost">—</td>
+          <td class="ev-v"    id="t-ev-cost">—</td>
           <td class="van-v"   id="t-van-cost">—</td>
         </tr>
       </tbody>
@@ -1150,6 +1167,18 @@ function calcVan(dist_km) {
   return { co2, kwh, litres, gallons };
 }
 
+function calcEV(dist_km) {
+  // Tesla Model 3 RWD: 14.1 kWh/100km (EPA)
+  const EV_KWH_PER_100KM = 14.1;
+  // BC Hydro grid: 15 gCO2/kWh (2023)
+  const BC_GRID_CO2_G_KWH = 15;
+  const kwh = dist_km * EV_KWH_PER_100KM / 100;
+  const co2 = kwh * BC_GRID_CO2_G_KWH / 1000; // kg
+  // Electricity cost: ~$0.13 CAD/kWh BC Hydro tier 1, convert to USD ~0.096
+  const cost = kwh * 0.096;
+  return { co2, kwh, cost };
+}
+
 function fmt(n, decimals = 2) {
   if (n === null || isNaN(n)) return '—';
   if (n >= 1000) return (n/1000).toFixed(1) + 'k';
@@ -1209,6 +1238,7 @@ function calculate() {
 
   const s = calcSolar(dist, speed);
   const v = calcVan(dist);
+  const e = calcEV(dist);
 
   const co2_saved = v.co2 - s.co2;
   const pct = ((co2_saved / v.co2) * 100).toFixed(1);
@@ -1293,15 +1323,20 @@ function calculate() {
 
   // Table
   set('t-solar-co2', fmt(s.co2, 4) + ' kg');
+  set('t-ev-co2',    fmt(e.co2, 3) + ' kg');
   set('t-van-co2',   fmt(v.co2, 2) + ' kg');
   set('t-solar-kwh', fmt(s.elec_kwh, 2) + ' kWh');
-  set('t-van-kwh',   fmt(v.kwh, 2)       + ' kWh');
+  set('t-ev-kwh',    fmt(e.kwh, 2)      + ' kWh');
+  set('t-van-kwh',   fmt(v.kwh, 2)      + ' kWh');
   set('t-solar-gkm', fmt(s.co2 / dist * 1000, 2) + ' g/km');
+  set('t-ev-gkm',    fmt(e.co2 / dist * 1000, 2) + ' g/km');
   set('t-van-gkm',   fmt(v.co2 / dist * 1000, 1) + ' g/km');
   set('t-solar-wkm', fmt(s.elec_kwh / dist * 1000, 1) + ' Wh/km');
+  set('t-ev-wkm',    fmt(e.kwh      / dist * 1000, 1) + ' Wh/km');
   set('t-van-wkm',   fmt(v.kwh      / dist * 1000, 1) + ' Wh/km');
   set('t-solar-ren', s.renewable_pct + '%');
   set('t-solar-cost', '$' + solar_cost);
+  set('t-ev-cost',    '$' + e.cost.toFixed(2));
   set('t-van-cost',   '$' + van_cost);
 }
 
