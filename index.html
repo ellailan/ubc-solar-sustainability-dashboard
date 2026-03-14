@@ -848,9 +848,22 @@ Solar’s work is proof that sustainable transportation will be possible in the 
         </div>
       </div>
     </div>
+    <div class="impact-card">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="impact-icon">🌉</div>
+          <div class="impact-val" id="lions-gate">—</div>
+          <div class="impact-metric">cars removed from the Lions Gate Bridge for a full day</div>
+          <div class="impact-note">~4.5 kg CO₂ per car per day on that corridor</div>
+        </div>
+        <div class="card-back">
+          <div class="math-label">How we calculated this</div>
+          <div class="math-formula">CO₂ saved ÷ <span>4.5 kg</span>/car/day</div>
+          <div class="math-result">Average Metro Vancouver commuter emits ~4.5 kg CO₂/day on the Lions Gate corridor (avg 22 km round trip, 25 MPG).</div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <!-- Energy Breakdown -->
   <div class="energy-section">
     <div class="section-title">Energy source breakdown · this trip</div>
     <div id="energy-bars">
@@ -934,7 +947,7 @@ Solar’s work is proof that sustainable transportation will be possible in the 
   <div class="assumptions">
     <div class="assumptions-header">
       <span class="note-icon">⚙️</span>
-      <span class="assumptions-title">Model constants</span>
+      <span class="assumptions-title">Model constants · from engineering spreadsheet</span>
     </div>
     <div class="assumptions-grid">
       <div class="assumption-item">
@@ -1064,6 +1077,33 @@ function updateGridLabel() {
 // Init sun position on load
 window.addEventListener('load', updateGridLabel);
 
+// ── Count-up animation ─────────────────────────────────────────────────
+function countUp(id, targetVal, decimals = 0, suffix = '', duration = 900) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const start = performance.now();
+  const startVal = 0;
+
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const current = startVal + (targetVal - startVal) * ease;
+
+    let display;
+    if (targetVal >= 1000) {
+      display = (current / 1000).toFixed(1) + 'k';
+    } else {
+      display = current.toFixed(decimals);
+    }
+    el.textContent = display + suffix;
+
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
 function calculate() {
   const dist  = parseFloat(document.getElementById('distance').value) || 100;
   const speed = parseFloat(document.getElementById('speed').value)    || 50;
@@ -1093,25 +1133,28 @@ function calculate() {
   const solar_bar_pct = Math.min(100, s.solar_used_kwh / max_kwh * 100).toFixed(1);
   const grid_bar_pct  = Math.min(100, s.grid_kwh / max_kwh * 100).toFixed(1);
 
-  // ── Update DOM ──
-  set('pct', pct + '%');
+  const lions_gate = (co2_saved / 4.5).toFixed(1);
+
+  // ── Update DOM with animations ──
+  countUp('pct',       parseFloat(pct),           1, '%', 1000);
   set('hero-unit', `less CO₂ than a gasoline car over ${dist} km`);
   set('hero-sub',  `${fmt(co2_saved, 2)} kg CO₂ prevented · ${gas_saved_L} litres of fuel not burned`);
 
-  set('solar-co2', fmt(s.co2, 4));
-  set('van-co2',   fmt(v.co2, 2));
+  countUp('solar-co2', s.co2,           4, '', 800);
+  countUp('van-co2',   v.co2,           2, '', 800);
   set('solar-note', s.co2 < 0.01
     ? 'Effectively zero — nearly pure solar operation'
     : `From ${fmt(s.grid_kwh,3)} kWh of grid-supplemented charging`);
 
-  set('trees',    trees);
-  set('bigmacs',  bigmacs.toLocaleString());
-  set('flights',  flights);
-  set('solar-gen', fmt(s.solar_gen_kwh, 2));
-  set('gas-saved', gas_saved_L);
-  set('tea',      tea.toLocaleString());
-  set('co2-saved', fmt(co2_saved, 2));
-  set('efficiency', efficiency_ratio + '×');
+  countUp('trees',     parseFloat(trees),     1, '', 900);
+  countUp('bigmacs',   bigmacs,               0, '', 900);
+  countUp('flights',   parseFloat(flights),   2, '', 900);
+  countUp('solar-gen', s.solar_gen_kwh,       2, '', 900);
+  countUp('gas-saved', parseFloat(gas_saved_L), 1, '', 900);
+  countUp('tea',       tea,                   0, '', 900);
+  countUp('co2-saved', co2_saved,             2, '', 1000);
+  countUp('efficiency', parseFloat(efficiency_ratio), 1, '×', 900);
+  countUp('lions-gate', parseFloat(lions_gate), 1, '', 900);
 
   // Energy bars
   setTimeout(() => {
