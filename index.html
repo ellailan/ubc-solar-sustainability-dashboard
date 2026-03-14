@@ -7,19 +7,19 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>☀️</text></svg>">
 </head>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --navy-deep:   #060d1a;
-    --navy-dark:   #0b1628;
-    --navy-mid:    #0f2040;
-    --navy-panel:  #132553;
-    --navy-border: #1e3570;
-    --gold:        #c9a84c;
-    --gold-light:  #e8c87a;
-    --gold-bright: #f5d98a;
+    --navy-deep:   #010e1f;
+    --navy-dark:   #010e1f;
+    --navy-mid:    #002145;
+    --navy-panel:  #003066;
+    --navy-border: #044994;
+    --gold:        #e6b13a;
+    --gold-light:  #efc03e;
+    --gold-bright: #e8c879;
     --white:       #ffffff;
     --white-90:    rgba(255,255,255,0.90);
     --white-60:    rgba(255,255,255,0.60);
@@ -31,6 +31,14 @@
     --danger:      #c97a4c;
   }
 
+  @keyframes btnGlow {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(230,177,58,0.7), 0 0 20px rgba(230,177,58,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(230,177,58,0), 0 0 40px rgba(230,177,58,0.7), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+  }
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -43,8 +51,8 @@
     to   { opacity: 1; }
   }
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
-    50%       { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(230,177,58,0.4); }
+    50%       { box-shadow: 0 0 0 12px rgba(230,177,58,0); }
   }
   @keyframes spin {
     from { transform: rotate(0deg); }
@@ -58,7 +66,7 @@
   body {
     background: var(--navy-deep);
     color: var(--white-90);
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
     min-height: 100vh;
   }
 
@@ -68,7 +76,7 @@
     background:
       radial-gradient(ellipse 70% 50% at 10% 0%,   rgba(19,37,83,0.8) 0%, transparent 60%),
       radial-gradient(ellipse 50% 60% at 90% 100%,  rgba(11,22,40,0.9) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 55% 45%,  rgba(201,168,76,0.03) 0%, transparent 50%);
+      radial-gradient(ellipse 40% 40% at 55% 45%,  rgba(230,177,58,0.03) 0%, transparent 50%);
     pointer-events: none; z-index: 0;
   }
 
@@ -83,8 +91,8 @@
 
   .badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(201,168,76,0.12);
-    border: 1px solid rgba(201,168,76,0.35);
+    background: rgba(230,177,58,0.12);
+    border: 1px solid rgba(230,177,58,0.35);
     border-radius: 99px;
     padding: 6px 14px;
     font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
@@ -98,9 +106,9 @@
   }
 
   h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2.4rem, 6vw, 4.2rem);
-    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4.5vw, 3.8rem);
+    font-weight: 700;
     line-height: 1.05; color: var(--white);
     margin-bottom: 16px;
     letter-spacing: -0.02em;
@@ -113,10 +121,91 @@
     font-weight: 400;
   }
 
+  /* ── CONTEXT BLOCK ── */
+  .context-block {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 28px;
+  }
+
+  .context-body {
+    font-size: 13.5px; color: var(--white-60);
+    line-height: 1.9; font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .context-body:last-of-type { margin-bottom: 22px; }
+
+  .context-stats {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .cstat { display: flex; flex-direction: column; gap: 3px; }
+  .cstat-val {
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--gold-light); letter-spacing: -0.01em; line-height: 1;
+  }
+  .cstat-label {
+    font-size: 10px; color: var(--white-30);
+    text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600;
+  }
+
+  .context-photo {
+    display: flex; flex-direction: column;
+    /* Break out of the .page column */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+  }
+  .photo-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  .team-photo {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-fade-top {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, var(--navy-deep) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .photo-fade-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 180px;
+    background: linear-gradient(to top, var(--navy-deep) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* ── CALCULATOR INTRO ── */
+  .calculator-intro {
+    margin-bottom: 24px;
+    padding-top: 8px;
+  }
+  .calc-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .calc-subtitle {
+    font-size: 13px;
+    color: var(--white-60);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
   /* ── CONTROLS ── */
   .controls {
     background: rgba(19,37,83,0.5);
-    border: 1px solid rgba(201,168,76,0.2);
+    border: 1px solid rgba(230,177,58,0.2);
     border-radius: 14px;
     padding: 28px 32px;
     margin-bottom: 48px;
@@ -137,33 +226,36 @@
   .ctrl label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
   .ctrl input[type=number] {
     background: rgba(6,13,26,0.8);
-    border: 1px solid rgba(201,168,76,0.25);
+    border: 1px solid rgba(230,177,58,0.25);
     border-radius: 7px; color: var(--white);
-    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 500;
+    font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 500;
     padding: 10px 14px; width: 120px;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .ctrl input[type=number]:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
+  .ctrl input[type=number]:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(230,177,58,0.12); }
 
   .run-btn {
     background: var(--gold); color: var(--navy-deep);
     border: 2px solid var(--gold);
     border-radius: 7px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 11px; font-weight: 700;
     letter-spacing: 0.15em; text-transform: uppercase;
     padding: 11px 28px; cursor: pointer;
     align-self: flex-end;
-    box-shadow: 0 0 0 4px rgba(201,168,76,0.12), inset 0 1px 0 rgba(255,255,255,0.15);
+    box-shadow: 0 0 0 4px rgba(230,177,58,0.12), inset 0 1px 0 rgba(255,255,255,0.15);
     transition: background 0.2s, transform 0.1s, box-shadow 0.2s, border-color 0.2s;
   }
-  .run-btn:hover { background: var(--gold-bright); border-color: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35), 0 0 0 4px rgba(201,168,76,0.15); }
-  .run-btn:active { transform: translateY(0); box-shadow: 0 0 0 4px rgba(201,168,76,0.12); }
+  .run-btn.pristine {
+    animation: btnGlow 1.8s ease-in-out infinite;
+  }
+  .run-btn:hover { background: var(--gold-bright); border-color: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(230,177,58,0.35), 0 0 0 4px rgba(230,177,58,0.15); }
+  .run-btn:active { transform: translateY(0); box-shadow: 0 0 0 4px rgba(230,177,58,0.12); }
 
   /* ── HERO REDUCTION ── */
   .hero {
     background: linear-gradient(135deg, rgba(19,37,83,0.7), rgba(6,13,26,0.5));
-    border: 1px solid rgba(201,168,76,0.25);
+    border: 1px solid rgba(230,177,58,0.25);
     border-radius: 16px; padding: 48px;
     margin-bottom: 32px; text-align: center;
     position: relative; overflow: hidden;
@@ -172,7 +264,7 @@
   .hero::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 70%);
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(230,177,58,0.06) 0%, transparent 70%);
     pointer-events: none;
   }
   .hero::after {
@@ -183,9 +275,9 @@
   }
   .hero-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 600; }
   .hero-pct {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: clamp(4rem, 14vw, 8rem);
-    font-weight: 800;
+    font-weight: 700;
     line-height: 1; letter-spacing: -0.03em;
     background: linear-gradient(90deg, var(--gold), var(--gold-bright), var(--gold));
     background-size: 200% auto;
@@ -195,7 +287,7 @@
     transition: all 0.5s;
   }
   .hero-unit { font-size: 13px; color: var(--white-60); margin-top: 8px; font-weight: 400; }
-  .hero-sub { font-size: 11px; color: rgba(201,168,76,0.6); margin-top: 6px; letter-spacing: 0.08em; font-weight: 500; }
+  .hero-sub { font-size: 11px; color: rgba(230,177,58,0.6); margin-top: 6px; letter-spacing: 0.08em; font-weight: 500; }
 
   /* ── DIRECT CO2 CARDS ── */
   .co2-row {
@@ -211,7 +303,7 @@
   }
   .co2-card.solar {
     background: rgba(19,37,83,0.5);
-    border: 1px solid rgba(201,168,76,0.25);
+    border: 1px solid rgba(230,177,58,0.25);
   }
   .co2-card.van {
     background: rgba(11,22,40,0.6);
@@ -222,15 +314,15 @@
   .co2-card.solar .card-label { color: var(--gold); }
   .co2-card.van   .card-label { color: var(--van-muted); }
   .co2-card .card-val {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2.6rem; font-weight: 800; line-height: 1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.6rem; font-weight: 700; line-height: 1;
     margin-bottom: 4px; transition: all 0.5s;
     letter-spacing: -0.02em;
   }
   .co2-card.solar .card-val { color: var(--gold-light); }
   .co2-card.van   .card-val { color: var(--van-muted); }
   .co2-card .card-unit { font-size: 11px; color: var(--white-60); }
-  .co2-card .card-note { font-size: 10px; color: rgba(201,168,76,0.5); margin-top: 10px; line-height: 1.6; }
+  .co2-card .card-note { font-size: 10px; color: rgba(230,177,58,0.5); margin-top: 10px; line-height: 1.6; }
   .co2-card.van .card-note { color: rgba(136,153,187,0.5); }
 
   /* Bar visual */
@@ -249,7 +341,7 @@
   .section-title {
     font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--gold); margin-bottom: 16px; padding-bottom: 10px;
-    border-bottom: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(230,177,58,0.15);
     font-weight: 600;
   }
 
@@ -266,39 +358,17 @@
     border-radius: 12px; padding: 22px 20px;
     transition: border-color 0.2s, transform 0.2s;
   }
-  .impact-card:hover .card-front { border-color: rgba(201,168,76,0.4); }
+  .impact-card:hover .card-front { border-color: rgba(230,177,58,0.4); }
   .impact-card.flipped .card-inner { transform: rotateY(180deg); }
   .impact-icon { font-size: 22px; margin-bottom: 10px; }
   .impact-val {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.9rem; font-weight: 800; color: var(--white);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.9rem; font-weight: 700; color: var(--white);
     line-height: 1; margin-bottom: 4px;
     transition: all 0.5s; letter-spacing: -0.02em;
   }
   .impact-metric { font-size: 11px; color: var(--white-60); line-height: 1.5; }
   .impact-note { font-size: 10px; color: var(--gold); margin-top: 6px; opacity: 0.7; }
-
-  /* ── LIFETIME PROJECTION ── */
-  .lifetime-section {
-    background: rgba(19,37,83,0.35);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 14px; padding: 32px;
-    margin-bottom: 32px;
-    animation: fadeUp 0.7s 0.5s ease both;
-  }
-  .lifetime-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 20px; margin-top: 20px;
-  }
-  @media (max-width: 600px) { .lifetime-grid { grid-template-columns: 1fr; } }
-  .lf-item { text-align: center; }
-  .lf-val {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2rem; font-weight: 800; color: var(--gold-light); margin-bottom: 4px;
-    transition: all 0.5s; letter-spacing: -0.02em;
-  }
-  .lf-label { font-size: 10px; color: var(--white-60); line-height: 1.6; }
-  .lf-sub { font-size: 10px; color: var(--gold); margin-top: 4px; opacity: 0.7; }
 
   /* ── ENERGY BREAKDOWN ── */
   .energy-section {
@@ -315,13 +385,47 @@
   .e-bar { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
   .e-val { font-size: 11px; color: var(--white-90); width: 70px; text-align: right; flex-shrink: 0; font-weight: 500; }
 
+  /* ── TABLE SOURCE NOTE ── */
+  .table-source-note {
+    margin-bottom: 16px;
+  }
+  .tsn-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  @media (max-width: 600px) { .tsn-row { grid-template-columns: 1fr; } }
+  .tsn-pill {
+    display: flex; align-items: flex-start; gap: 10px;
+    border-radius: 8px; padding: 12px 14px;
+  }
+  .solar-pill {
+    background: rgba(230,177,58,0.07);
+    border: 1px solid rgba(230,177,58,0.15);
+  }
+  .van-pill {
+    background: rgba(136,153,187,0.06);
+    border: 1px solid rgba(136,153,187,0.15);
+  }
+  .tsn-swatch {
+    display: inline-block; width: 8px; height: 8px;
+    border-radius: 2px; flex-shrink: 0; margin-top: 4px;
+  }
+  .solar-swatch { background: var(--gold); }
+  .van-swatch   { background: var(--van-muted); }
+  .tsn-name {
+    font-size: 11px; font-weight: 600; color: var(--white-90);
+    margin-bottom: 2px;
+  }
+  .tsn-desc {
+    font-size: 10px; color: var(--white-60); line-height: 1.6;
+  }
+
   /* ── COMPARISON TABLE ── */
   .compare-section {
     animation: fadeUp 0.7s 0.6s ease both;
     margin-bottom: 32px;
   }
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  thead tr { border-bottom: 1px solid rgba(201,168,76,0.2); }
+  thead tr { border-bottom: 1px solid rgba(230,177,58,0.2); }
   th { padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; }
   th:first-child { color: var(--white-60); }
   th.solar-h { color: var(--gold); }
@@ -331,18 +435,48 @@
   td:first-child { color: var(--white-60); }
   td.solar-v { color: var(--white); font-weight: 600; }
   td.van-v   { color: var(--van-muted); }
-  .win { display: inline-block; background: rgba(201,168,76,0.15); color: var(--gold); border-radius: 4px; padding: 2px 8px; font-size: 10px; margin-left: 8px; font-weight: 600; }
+  .win { display: inline-block; background: rgba(230,177,58,0.15); color: var(--gold); border-radius: 4px; padding: 2px 8px; font-size: 10px; margin-left: 8px; font-weight: 600; }
 
-  /* ── ASSUMPTIONS NOTE ── */
+  /* ── MODEL NOTES ── */
   .assumptions {
-    background: rgba(19,37,83,0.3);
-    border-left: 3px solid rgba(201,168,76,0.35);
-    border-radius: 0 8px 8px 0;
-    padding: 20px 24px;
+    background: rgba(4,73,148,0.12);
+    border: 1px solid rgba(4,73,148,0.3);
+    border-radius: 14px;
+    padding: 28px 32px;
     animation: fadeUp 0.7s 0.65s ease both;
   }
-  .assumptions p { font-size: 11px; color: var(--white-60); line-height: 1.8; }
-  .assumptions strong { color: var(--gold-light); font-weight: 600; }
+  .assumptions-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .assumptions-header .note-icon {
+    font-size: 15px; opacity: 0.7;
+  }
+  .assumptions-title {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--navy-border); font-weight: 600;
+  }
+  .assumptions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px 20px;
+    margin-bottom: 14px;
+  }
+  .assumption-item {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .assumption-item .a-label {
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--white-30); font-weight: 600;
+  }
+  .assumption-item .a-val {
+    font-size: 12px; color: var(--white-60); font-weight: 500;
+  }
+  .assumptions-footer {
+    font-size: 10px; color: var(--white-30);
+    line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 12px; margin-top: 4px;
+  }
 
   /* ── CARD FLIP ── */
   .impact-card {
@@ -377,7 +511,7 @@
   }
   .card-back {
     background: rgba(11,22,40,0.85);
-    border: 1px solid rgba(201,168,76,0.25);
+    border: 1px solid rgba(230,177,58,0.25);
     transform: rotateY(180deg);
     display: flex; flex-direction: column; justify-content: center;
   }
@@ -431,25 +565,55 @@
     pointer-events: none;
     transform: translateX(-50%);
     transition: left 0s;
-    filter: drop-shadow(0 0 6px rgba(201,168,76,0.7));
+    filter: drop-shadow(0 0 6px rgba(230,177,58,0.7));
     user-select: none;
   }
   .fsgp-note {
-    font-size: 10px; color: rgba(201,168,76,0.6);
+    font-size: 10px; color: rgba(230,177,58,0.6);
     margin-top: 5px; font-style: italic;
   }
 
-  @media (hover: none) {
-    .card-front::after {
-      content: 'tap to see the math';
-      display: block;
-      font-size: 9px;
-      color: rgba(201,168,76,0.45);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-top: 10px;
-    }
-    .impact-card.flipped .card-front::after { display: none; }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.85; }
+    50%       { transform: translateY(5px); opacity: 0.5; }
+  }
+
+  .photo-reveal {
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 1.1s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .photo-reveal.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .scroll-indicator {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    margin-top: 20px;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .scroll-indicator.hidden { opacity: 0; }
+  .scroll-text {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(230,177,58,0.75); font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+  }
+  .scroll-arrow {
+    animation: scrollBounce 1.6s ease-in-out infinite;
+  }
+  .card-front::after {
+    content: 'see the math';
+    display: block;
+    font-size: 9px;
+    color: rgba(230,177,58,0.45);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .impact-card.flipped .card-front::after { display: none; }
   }
 
   @media (max-width: 600px) {
@@ -467,23 +631,48 @@
   <div class="header">
     <div class="badge"><span class="badge-dot"></span> Sustainability Analysis</div>
     <h1>UBC Solar's Brightside is<br><span>Cleaner by Every Measure</span></h1>
-    <p class="subtitle">Enter a trip distance below to see a full sustainability breakdown comparing our student-built solar car to a conventional gasoline car.</p>
+
+    <div class="context-block">
+      <div class="context-text">
+        <p class="context-body">Every year, over 100 UBC students pour thousands of hours into Solar. Brightside is our solar-powered race vehicle, designed from scratch and taken to the Formula Sun Grand Prix, where the best university solar teams in North America push renewable energy to its limits.
+Solar’s work is proof that sustainable transportation will be possible in the near future. Solar is more just a compromise compared to gas power. It’s competitive. 
+</p>
+        <p class="context-body">This interactive dashboard lets you explore the environmental impact of Brightside compared to a traditional gas streetcar. Powered directly with measurements from Brightside's Simulation Team’s models, you can now see what solar-powered driving could mean for our planet. UBC Solar hopes to continue to push the boundaries of sustainable transportation with our new car, Cascadia. 
+</p>
+
+        <div class="scroll-indicator" id="scroll-indicator">
+          <span class="scroll-text">Scroll to explore</span>
+          <div class="scroll-arrow">
+            <svg width="14" height="18" viewBox="0 0 14 18" fill="none">
+              <path d="M7 0 L7 14 M1 8 L7 14 L13 8" stroke="rgba(230,177,58,0.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="context-photo">
+        <div class="photo-wrap" id="photo-wrap">
+          <img src="assets/fsgp.jpg" alt="UBC Solar Brightside solar car at FSGP 2024" class="team-photo photo-reveal">
+          <div class="photo-fade-top"></div>
+          <div class="photo-fade-bottom"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Controls -->
+  <div class="calculator-intro">
+    <h2 class="calc-title">See the Impact for Yourself</h2>
+    <p class="calc-subtitle">Adjust the trip parameters below and hit calculate.</p>
+  </div>
   <div class="controls">
     <div class="controls-top">
       <div class="ctrl">
         <label>Trip Distance (km)</label>
-        <input type="number" id="distance" value="100" min="1" max="10000">
+        <input type="number" id="distance" value="500" min="1" max="10000">
       </div>
       <div class="ctrl">
         <label>Avg Speed (km/h)</label>
-        <input type="number" id="speed" value="50" min="10" max="150">
-      </div>
-      <div class="ctrl">
-        <label>Annual km Driven</label>
-        <input type="number" id="annual" value="15000" min="1000" max="100000">
+        <input type="number" id="speed" value="45" min="10" max="150">
       </div>
     </div>
     <div class="controls-bottom">
@@ -493,12 +682,12 @@
           <span class="slider-val" id="grid-pct-label">0%</span>
         </div>
         <div class="slider-wrap">
-          <input type="range" id="grid-frac" min="0" max="100" value="0" step="1" oninput="updateGridLabel()">
+          <input type="range" id="grid-frac" min="0" max="100" value="25" step="1" oninput="updateGridLabel()">
           <span class="sun-thumb" id="sun-thumb">☀️</span>
         </div>
-        <div class="fsgp-note">At FSGP, our grid supplement was ~25%</div>
+        <div class="fsgp-note">Defaults reflect FSGP 2024 estimates</div>
       </div>
-      <button class="run-btn" onclick="calculate(); launchConfetti()">Calculate Impact</button>
+      <button class="run-btn pristine" id="run-btn" onclick="handleCalculate()">Calculate Impact</button>
     </div>
   </div>
   <div class="hero">
@@ -653,28 +842,6 @@
     </div>
   </div>
 
-  <!-- Lifetime Projections -->
-  <div class="lifetime-section">
-    <div class="section-title">Lifetime projections · assuming <span id="annual-label">15,000</span> km/year</div>
-    <div class="lifetime-grid">
-      <div class="lf-item">
-        <div class="lf-val" id="yr1">—</div>
-        <div class="lf-label">kg CO₂ saved<br>in year 1</div>
-        <div class="lf-sub">vs. driving a gasoline car</div>
-      </div>
-      <div class="lf-item">
-        <div class="lf-val" id="yr5">—</div>
-        <div class="lf-label">kg CO₂ saved<br>over 5 years</div>
-        <div class="lf-sub">equivalent to planting <span id="yr5-trees">—</span> trees</div>
-      </div>
-      <div class="lf-item">
-        <div class="lf-val" id="yr10">—</div>
-        <div class="lf-label">kg CO₂ saved<br>over 10 years</div>
-        <div class="lf-sub">a car's typical lifespan</div>
-      </div>
-    </div>
-  </div>
-
   <!-- Energy Breakdown -->
   <div class="energy-section">
     <div class="section-title">Energy source breakdown · this trip</div>
@@ -700,6 +867,18 @@
   <!-- Comparison Table -->
   <div class="compare-section">
     <div class="section-title">Full metric comparison</div>
+    <div class="table-source-note">
+      <div class="tsn-row">
+        <div class="tsn-pill solar-pill">
+          <span class="tsn-swatch solar-swatch"></span>
+          <div><div class="tsn-name">Solar Car</div><div class="tsn-desc">Brightside's engineering constants — array power, drag, rolling resistance, mass</div></div>
+        </div>
+        <div class="tsn-pill van-pill">
+          <span class="tsn-swatch van-swatch"></span>
+          <div><div class="tsn-name">Gasoline Car</div><div class="tsn-desc">EPA baseline — 30 MPG and 8.887 kg CO₂/gallon scaled to trip distance</div></div>
+        </div>
+      </div>
+    </div>
     <table>
       <thead>
         <tr>
@@ -745,14 +924,47 @@
 
   <!-- Assumptions Note -->
   <div class="assumptions">
-    <p>
-      <strong>Model notes:</strong> Grid supplement is adjustable via slider (0% = pure solar; at FSGP our supplement was ~25%).
-      Constants confirmed from engineering spreadsheet: array power = <span class="tag">749.04 W</span>,
-      MPPT efficiency = <span class="tag">97%</span>, battery round-trip efficiency = <span class="tag">90.25%</span> (0.95 × 0.95),
-      vehicle mass = <span class="tag">350 kg</span>, frontal area = <span class="tag">1.1853 m²</span>,
-      drag coefficient = <span class="tag">0.1166</span>, rolling resistance = <span class="tag">0.0234</span>.
-      Gasoline car baseline uses EPA average of <span class="tag">30 MPG</span> and <span class="tag">8.887 kg CO₂/gallon</span>. All results are physics-based estimates.
-    </p>
+    <div class="assumptions-header">
+      <span class="note-icon">⚙️</span>
+      <span class="assumptions-title">Model constants · from engineering spreadsheet</span>
+    </div>
+    <div class="assumptions-grid">
+      <div class="assumption-item">
+        <span class="a-label">Array Power</span>
+        <span class="a-val">749.04 W</span>
+      </div>
+      <div class="assumption-item">
+        <span class="a-label">MPPT Efficiency</span>
+        <span class="a-val">97%</span>
+      </div>
+      <div class="assumption-item">
+        <span class="a-label">Battery Round-trip</span>
+        <span class="a-val">90.25% (0.95 × 0.95)</span>
+      </div>
+      <div class="assumption-item">
+        <span class="a-label">Vehicle Mass</span>
+        <span class="a-val">350 kg</span>
+      </div>
+      <div class="assumption-item">
+        <span class="a-label">Frontal Area</span>
+        <span class="a-val">1.1853 m²</span>
+      </div>
+      <div class="assumption-item">
+        <span class="a-label">Drag Coefficient</span>
+        <span class="a-val">0.1166</span>
+      </div>
+      <div class="assumption-item">
+        <span class="a-label">Rolling Resistance</span>
+        <span class="a-val">0.0234</span>
+      </div>
+      <div class="assumption-item">
+        <span class="a-label">Gasoline Baseline</span>
+        <span class="a-val">30 MPG · 8.887 kg CO₂/gal</span>
+      </div>
+    </div>
+    <div class="assumptions-footer">
+      Grid supplement is adjustable via the slider above (0% = pure solar). Default settings reflect FSGP 2024 estimates. All results are physics-based estimates.
+    </div>
   </div>
 
 </div>
@@ -847,7 +1059,6 @@ window.addEventListener('load', updateGridLabel);
 function calculate() {
   const dist  = parseFloat(document.getElementById('distance').value) || 100;
   const speed = parseFloat(document.getElementById('speed').value)    || 50;
-  const annual= parseFloat(document.getElementById('annual').value)   || 15000;
   C.GRID_FRAC = parseFloat(document.getElementById('grid-frac').value) / 100;
 
   const s = calcSolar(dist, speed);
@@ -864,13 +1075,6 @@ function calculate() {
   const flights = (co2_saved / 90).toFixed(2);
   const tea = Math.round(s.solar_gen_kwh / 0.04);
   const gas_saved_L = v.litres.toFixed(1);
-
-  // Lifetime
-  const scale = annual / dist;
-  const yr1  = (co2_saved * scale).toFixed(0);
-  const yr5  = (co2_saved * scale * 5).toFixed(0);
-  const yr10 = (co2_saved * scale * 10).toFixed(0);
-  const yr5_trees = (co2_saved * scale * 5 / C.TREE_ABS_KG_YR).toFixed(0);
 
   // Costs
   const solar_cost = (s.grid_kwh * C.ELEC_PRICE_USD_KWH).toFixed(2);
@@ -901,12 +1105,6 @@ function calculate() {
   set('co2-saved', fmt(co2_saved, 2));
   set('efficiency', efficiency_ratio + '×');
 
-  set('annual-label', annual.toLocaleString());
-  set('yr1',  fmt(yr1, 0));
-  set('yr5',  fmt(yr5, 0));
-  set('yr10', fmt(yr10, 0));
-  set('yr5-trees', yr5_trees);
-
   // Energy bars
   setTimeout(() => {
     document.getElementById('bar-solar').style.width = solar_bar_pct + '%';
@@ -931,35 +1129,87 @@ function calculate() {
   set('t-van-cost',   '$' + van_cost);
 }
 
+function handleCalculate() {
+  const btn = document.getElementById('run-btn');
+  btn.classList.remove('pristine');
+  calculate();
+  launchConfetti();
+}
 function launchConfetti() {
-  const colors = ['#c9a84c', '#e8c87a', '#f5d98a', '#ffffff', '#0f2040'];
-  const count = 80;
+  const colors = ['#e6b13a', '#efc03e', '#e8c879', '#ffffff', '#044994', '#003066'];
+  const shapes = ['circle', 'rect', 'ribbon'];
+  const count = 140;
+
   for (let i = 0; i < count; i++) {
-    const el = document.createElement('div');
-    const size = Math.random() * 8 + 5;
-    el.style.cssText = `
-      position: fixed;
-      width: ${size}px;
-      height: ${size}px;
-      background: ${colors[Math.floor(Math.random() * colors.length)]};
-      border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
-      left: ${Math.random() * 100}vw;
-      top: -10px;
-      opacity: 1;
-      pointer-events: none;
-      z-index: 9999;
-      transform: rotate(${Math.random() * 360}deg);
-    `;
-    document.body.appendChild(el);
-    const duration = Math.random() * 1500 + 1000;
-    const drift = (Math.random() - 0.5) * 200;
-    el.animate([
-      { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 1 },
-      { transform: `translateY(100vh) translateX(${drift}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' })
-      .onfinish = () => el.remove();
+    setTimeout(() => {
+      const el = document.createElement('canvas');
+      const size = Math.random() * 10 + 6;
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      if (shape === 'ribbon') { el.width = 4; el.height = 14; }
+      else { el.width = size; el.height = size; }
+
+      const ctx = el.getContext('2d');
+      ctx.fillStyle = color;
+      if (shape === 'circle') {
+        ctx.beginPath(); ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2); ctx.fill();
+      } else { ctx.fillRect(0, 0, el.width, el.height); }
+
+      let x = Math.random() * window.innerWidth;
+      let y = -20;
+      let velX = (Math.random() - 0.5) * 4;
+      let velY = Math.random() * 3 + 2;
+      let angle = Math.random() * 360;
+      let spin = (Math.random() - 0.5) * 12;
+      let gravity = 0.12 + Math.random() * 0.08;
+      let wobble = Math.random() * Math.PI * 2;
+
+      Object.assign(el.style, {
+        position: 'fixed', pointerEvents: 'none', zIndex: '9999',
+        left: x + 'px', top: y + 'px', opacity: '1', transformOrigin: 'center center',
+      });
+      document.body.appendChild(el);
+
+      let frame = 0;
+      const maxFrames = 180 + Math.floor(Math.random() * 80);
+      function tick() {
+        frame++;
+        wobble += 0.06; velY += gravity; velX += Math.sin(wobble) * 0.15;
+        x += velX; y += velY; angle += spin;
+        const opacity = frame > maxFrames * 0.75
+          ? 1 - (frame - maxFrames * 0.75) / (maxFrames * 0.25) : 1;
+        el.style.left = x + 'px'; el.style.top = y + 'px';
+        el.style.opacity = opacity; el.style.transform = `rotate(${angle}deg)`;
+        if (frame < maxFrames && y < window.innerHeight + 20) requestAnimationFrame(tick);
+        else el.remove();
+      }
+      requestAnimationFrame(tick);
+    }, i * 12);
   }
 }
+
+// Photo reveal on scroll + dismiss scroll indicator
+const photoEl = document.querySelector('.photo-reveal');
+const scrollIndicator = document.getElementById('scroll-indicator');
+
+if (photoEl) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        photoEl.classList.add('visible');
+        revealObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.15 });
+  revealObserver.observe(photoEl);
+}
+
+window.addEventListener('scroll', () => {
+  if (scrollIndicator && window.scrollY > 100) {
+    scrollIndicator.classList.add('hidden');
+  }
+}, { passive: true });
 
 // Tap to flip on touch devices
 document.querySelectorAll('.impact-card').forEach(card => {
