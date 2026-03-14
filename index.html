@@ -107,7 +107,7 @@
 
   h1 {
     font-family: 'Poppins', sans-serif;
-    font-size: clamp(1.8rem, 4.5vw, 3.8rem);
+    font-size: clamp(1.8rem, 4.5vw, 3.5rem);
     font-weight: 700;
     line-height: 1.05; color: var(--white);
     margin-bottom: 16px;
@@ -295,7 +295,7 @@
     gap: 16px; margin-bottom: 32px;
     animation: fadeUp 0.7s 0.3s ease both;
   }
-  @media (max-width: 600px) { .co2-row { grid-template-columns: 1fr; } }
+  @media (max-width: 500px) { .co2-row { grid-template-columns: 1fr; } }
 
   .co2-card {
     border-radius: 14px; padding: 28px;
@@ -377,13 +377,20 @@
     border-radius: 14px; padding: 32px;
     margin-bottom: 32px;
     animation: fadeUp 0.7s 0.55s ease both;
+    overflow: hidden;
   }
-  .energy-section { overflow: hidden; }
-  .energy-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; min-width: 0; }
-  .e-label { font-size: 11px; color: var(--white-60); width: 160px; flex-shrink: 0; }
-  .e-track { flex: 1; min-width: 0; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .energy-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; min-width: 0; flex-wrap: wrap; }
+  .e-label { font-size: 11px; color: var(--white-60); width: 160px; flex-shrink: 0; min-width: 0; }
+  .e-track { flex: 1; min-width: 80px; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
   .e-bar { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
   .e-val { font-size: 11px; color: var(--white-90); width: 70px; text-align: right; flex-shrink: 0; font-weight: 500; }
+
+  @media (max-width: 500px) {
+    .energy-section { padding: 20px; }
+    .e-label { width: 100%; margin-bottom: -4px; }
+    .e-track { min-width: 0; }
+    .e-val { width: auto; }
+  }
 
   /* ── TABLE SOURCE NOTE ── */
   .table-source-note {
@@ -487,8 +494,8 @@
   }
   .card-inner {
     position: relative;
-    width: 100%; height: 100%;
-    min-height: 160px;
+    width: 100%;
+    min-height: 190px;
     transform-style: preserve-3d;
     transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
     border-radius: 12px;
@@ -502,6 +509,7 @@
     -webkit-backface-visibility: hidden;
     border-radius: 12px;
     padding: 22px 20px;
+    overflow: hidden;
   }
   .card-front {
     background: rgba(19,37,83,0.4);
@@ -616,11 +624,11 @@
   .impact-card.flipped .card-front::after { display: none; }
   }
 
-  @media (max-width: 600px) {
-    .impact-grid { grid-template-columns: 1fr; }
-  }
-  @media (min-width: 601px) and (max-width: 800px) {
+  @media (max-width: 900px) {
     .impact-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .impact-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -926,7 +934,7 @@ Solar’s work is proof that sustainable transportation will be possible in the 
   <div class="assumptions">
     <div class="assumptions-header">
       <span class="note-icon">⚙️</span>
-      <span class="assumptions-title">Model constants · from engineering spreadsheet</span>
+      <span class="assumptions-title">Model constants</span>
     </div>
     <div class="assumptions-grid">
       <div class="assumption-item">
