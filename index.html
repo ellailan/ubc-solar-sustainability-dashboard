@@ -444,6 +444,83 @@
   td.van-v   { color: var(--van-muted); }
   .win { display: inline-block; background: rgba(230,177,58,0.15); color: var(--gold); border-radius: 4px; padding: 2px 8px; font-size: 10px; margin-left: 8px; font-weight: 600; }
 
+  /* ── VANCOUVER SECTION ── */
+  .vancouver-section {
+    background: linear-gradient(135deg, rgba(4,73,148,0.18) 0%, rgba(0,33,69,0.25) 100%);
+    border: 1px solid rgba(4,73,148,0.35);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .vancouver-section::before {
+    content: '🏔';
+    position: absolute;
+    font-size: 160px;
+    opacity: 0.04;
+    right: -20px;
+    bottom: -20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .van-eyebrow {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--navy-border); font-weight: 600; margin-bottom: 10px;
+  }
+  .van-headline {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 700; color: var(--white);
+    margin-bottom: 16px; letter-spacing: -0.01em;
+  }
+  .van-body {
+    font-size: 13px; color: var(--white-60);
+    line-height: 1.85; max-width: 580px;
+    margin-bottom: 32px;
+  }
+  .van-body strong { color: var(--white-90); font-weight: 600; }
+
+  .van-stats {
+    display: flex; align-items: center;
+    gap: 0; margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .van-stat {
+    flex: 1; min-width: 120px;
+    padding: 0 24px;
+  }
+  .van-stat:first-child { padding-left: 0; }
+  .van-stat-divider {
+    width: 1px; height: 48px;
+    background: rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
+  .van-stat-val {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700; color: var(--gold-light);
+    line-height: 1; letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .van-stat-label {
+    font-size: 10px; color: var(--white-30);
+    text-transform: uppercase; letter-spacing: 0.12em;
+    line-height: 1.5; font-weight: 600;
+  }
+  .van-note {
+    font-size: 10px; color: var(--white-30);
+    line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 16px;
+  }
+
+  @media (max-width: 500px) {
+    .vancouver-section { padding: 24px; }
+    .van-stat { padding: 12px 0; }
+    .van-stat-divider { display: none; }
+    .van-stats { flex-direction: column; align-items: flex-start; gap: 4px; }
+  }
+
   /* ── MODEL NOTES ── */
   .assumptions {
     background: rgba(4,73,148,0.12);
@@ -712,7 +789,7 @@ Solar’s work is proof that sustainable transportation will be possible in the 
       <div class="card-label">Solar Car · CO₂ Emitted</div>
       <div class="card-val" id="solar-co2">—</div>
       <div class="card-unit">kg CO₂</div>
-      <div class="card-note" id="solar-note">Indirect only — from grid-supplemented charging</div>
+      <div class="card-note" id="solar-note">Indirect only, from grid-supplemented charging</div>
       <div class="bar-track"><div class="bar-fill"></div></div>
     </div>
     <div class="co2-card van">
@@ -779,7 +856,7 @@ Solar’s work is proof that sustainable transportation will be possible in the 
           <div class="impact-icon">🍔</div>
           <div class="impact-val" id="bigmacs">—</div>
           <div class="impact-metric">Big Macs worth of energy the gasoline car burned</div>
-          <div class="impact-note">580 calories each — not exactly fuel-efficient</div>
+          <div class="impact-note">580 calories each, not exactly fuel-efficient</div>
         </div>
         <div class="card-back">
           <div class="math-label">How we calculated this</div>
@@ -892,11 +969,11 @@ Solar’s work is proof that sustainable transportation will be possible in the 
       <div class="tsn-row">
         <div class="tsn-pill solar-pill">
           <span class="tsn-swatch solar-swatch"></span>
-          <div><div class="tsn-name">Solar Car</div><div class="tsn-desc">Brightside's engineering constants — array power, drag, rolling resistance, mass</div></div>
+          <div><div class="tsn-name">Solar Car</div><div class="tsn-desc">Brightside's engineering constants: array power, drag, rolling resistance, mass</div></div>
         </div>
         <div class="tsn-pill van-pill">
           <span class="tsn-swatch van-swatch"></span>
-          <div><div class="tsn-name">Gasoline Car</div><div class="tsn-desc">EPA baseline — 30 MPG and 8.887 kg CO₂/gallon scaled to trip distance</div></div>
+          <div><div class="tsn-name">Gasoline Car</div><div class="tsn-desc">EPA baseline of 30 MPG and 8.887 kg CO₂/gallon scaled to trip distance</div></div>
         </div>
       </div>
     </div>
@@ -941,6 +1018,32 @@ Solar’s work is proof that sustainable transportation will be possible in the 
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- What if Vancouver switched -->
+  <div class="vancouver-section">
+    <div class="van-eyebrow">A bigger picture</div>
+    <h2 class="van-headline">What if Vancouver switched?</h2>
+    <p class="van-body">Metro Vancouver sees roughly 1.2 million car trips every day. If every one of those trips were made in a solar car with Brightside's efficiency, the region would prevent an estimated <strong id="van-annual-tonnes">—</strong> tonnes of CO₂ per year, the equivalent of taking <strong id="van-cars-off">—</strong> cars off the road permanently.</p>
+
+    <div class="van-stats">
+      <div class="van-stat">
+        <div class="van-stat-val" id="van-co2-day">—</div>
+        <div class="van-stat-label">tonnes CO₂ prevented<br>every single day</div>
+      </div>
+      <div class="van-stat-divider"></div>
+      <div class="van-stat">
+        <div class="van-stat-val" id="van-annual-tonnes-big">—</div>
+        <div class="van-stat-label">tonnes CO₂ prevented<br>per year</div>
+      </div>
+      <div class="van-stat-divider"></div>
+      <div class="van-stat">
+        <div class="van-stat-val" id="van-pct-fleet">97%</div>
+        <div class="van-stat-label">of BC's grid is already<br>renewable energy</div>
+      </div>
+    </div>
+
+    <div class="van-note">Based on 1.2M daily Metro Vancouver car trips at the efficiency of Brightside's engineering model, compared to the regional average of 25 MPG. BC grid carbon intensity: 15 gCO₂/kWh (BC Hydro, 2023).</div>
   </div>
 
   <!-- Assumptions Note -->
@@ -1135,6 +1238,17 @@ function calculate() {
 
   const lions_gate = (co2_saved / 4.5).toFixed(1);
 
+  // Vancouver scale-up (1.2M daily trips, avg 12 km per trip in Metro Van)
+  const VAN_DAILY_TRIPS = 1_200_000;
+  const VAN_AVG_KM = 12;
+  const van_trip = calcVan(VAN_AVG_KM);
+  const solar_trip = calcSolar(VAN_AVG_KM, 45);
+  const van_trip_saved = van_trip.co2 - solar_trip.co2;
+  const van_co2_day_tonnes = (VAN_DAILY_TRIPS * van_trip_saved / 1000);
+  const van_co2_year_tonnes = (van_co2_day_tonnes * 365);
+  // Avg car emits ~4.6 tonnes CO2/year (NRCan)
+  const van_cars_equivalent = Math.round(van_co2_year_tonnes / 4.6);
+
   // ── Update DOM with animations ──
   countUp('pct',       parseFloat(pct),           1, '%', 1000);
   set('hero-unit', `less CO₂ than a gasoline car over ${dist} km`);
@@ -1143,7 +1257,7 @@ function calculate() {
   countUp('solar-co2', s.co2,           4, '', 800);
   countUp('van-co2',   v.co2,           2, '', 800);
   set('solar-note', s.co2 < 0.01
-    ? 'Effectively zero — nearly pure solar operation'
+    ? 'Effectively zero, nearly pure solar operation'
     : `From ${fmt(s.grid_kwh,3)} kWh of grid-supplemented charging`);
 
   countUp('trees',     parseFloat(trees),     1, '', 900);
@@ -1155,6 +1269,22 @@ function calculate() {
   countUp('co2-saved', co2_saved,             2, '', 1000);
   countUp('efficiency', parseFloat(efficiency_ratio), 1, '×', 900);
   countUp('lions-gate', parseFloat(lions_gate), 1, '', 900);
+
+  // Vancouver section — these are fixed regardless of trip inputs
+  const vanDayFmt = van_co2_day_tonnes >= 1000
+    ? (van_co2_day_tonnes / 1000).toFixed(1) + 'k'
+    : van_co2_day_tonnes.toFixed(0);
+  const vanYearFmt = van_co2_year_tonnes >= 1000
+    ? (van_co2_year_tonnes / 1000).toFixed(0) + 'k'
+    : van_co2_year_tonnes.toFixed(0);
+  const vanCarsK = van_cars_equivalent >= 1000
+    ? (van_cars_equivalent / 1000).toFixed(0) + 'k'
+    : van_cars_equivalent.toLocaleString();
+
+  countUp('van-co2-day',         van_co2_day_tonnes,  0, 't', 1100);
+  countUp('van-annual-tonnes-big', van_co2_year_tonnes, 0, 't', 1200);
+  set('van-annual-tonnes', vanYearFmt);
+  set('van-cars-off', vanCarsK);
 
   // Energy bars
   setTimeout(() => {
